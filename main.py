@@ -7,8 +7,7 @@ Redosled izvršavanja:
   3. simulacija (DES) — jedno izvršavanje i ponovljena izvršavanja sa
      usrednjavanjem, za svaku kombinaciju (K, r),
   4. poređenje rezultata i tabele relativnih odstupanja,
-  5. dijagrami,
-  6. dokumentacija.
+  5. dijagrami.
 
 Primeri pokretanja:
     py main.py                          # podrazumevano: 30 min, 100 ponavljanja
@@ -22,21 +21,17 @@ Primeri pokretanja:
 import argparse
 import multiprocessing as mp
 import os
-import pickle
 import sys
 import time
 
 import analiticki
-import dokumentacija
 import izvestaji
 import parametri
-import poredjenje
 import simulacija
 
 OVDE = os.path.dirname(os.path.abspath(__file__))
 DIR_REZULTATI = os.path.join(OVDE, "rezultati")
 DIR_GRAFICI = os.path.join(OVDE, "grafici")
-DATOTEKA_KESA = os.path.join(OVDE, "kes_simulacije.pkl")
 
 
 # ---------------------------------------------------------------------------
@@ -54,8 +49,6 @@ def procitaj_argumente(argv=None):
     p.add_argument("--ponavljanja", type=int,
                    default=parametri.PODRAZUMEVANI_BROJ_PONAVLJANJA,
                    help="broj ponavljanja simulacije po kombinaciji (K, r)")
-    p.add_argument("--zagrevanje", type=float, default=0.0,
-                   help="početni interval čija se statistika odbacuje [min]")
     p.add_argument("--seme", type=int, default=parametri.PODRAZUMEVANO_SEME,
                    help="bazno seme generatora slučajnih brojeva")
     p.add_argument("--procesi", type=int, default=0,
@@ -64,13 +57,8 @@ def procitaj_argumente(argv=None):
                    help="izvrši samo analitički deo i dijagrame")
     p.add_argument("--bez-grafika", action="store_true",
                    help="ne crtaj dijagrame (npr. ako matplotlib nije instaliran)")
-    p.add_argument("--bez-dokumentacije", action="store_true",
-                   help="ne generiši dokumentaciju")
     p.add_argument("--brzo", action="store_true",
                    help="brza provera: 5 min simuliranog vremena, 5 ponavljanja")
-    p.add_argument("--ucitaj", action="store_true",
-                   help="ne simuliraj ponovo, već iskoristi rezultate poslednje "
-                        "simulacije (kes_simulacije.pkl)")
     argumenti = p.parse_args(argv)
     if argumenti.brzo:
         argumenti.minuti = 5.0
@@ -95,7 +83,7 @@ def _trajanje(sekunde):
 
 
 # ---------------------------------------------------------------------------
-# Analitički deo
+# 1) Analitički deo
 # ---------------------------------------------------------------------------
 def izvrsi_analitiku():
     _naslov("1) ANALITIČKO REŠAVANJE")
@@ -124,18 +112,17 @@ def izvrsi_analitiku():
 
 
 # ---------------------------------------------------------------------------
-# Simulacioni deo
+# 2) Simulacioni deo
 # ---------------------------------------------------------------------------
-def _napravi_zadatke(analitika, trajanje_s, zagrevanje_s, bazno_seme, ponavljanja):
+def _napravi_zadatke(analitika, trajanje_s, bazno_seme, ponavljanja):
+    """Lista poslova (jedno izvršavanje simulacije = jedan posao)."""
     zadatci = []
     for K in parametri.K_VREDNOSTI:
         for indeks_r, r in enumerate(parametri.R_VREDNOSTI):
             alpha = analitika[(K, r)].alpha
             for ponavljanje in range(ponavljanja):
                 seme = simulacija.seme_za(bazno_seme, K, indeks_r, ponavljanje)
-                zadatci.append(
-                    (K, alpha, trajanje_s, seme, zagrevanje_s, (K, r, ponavljanje))
-                )
+                zadatci.append((K, alpha, trajanje_s, seme, (K, r, ponavljanje)))
     return zadatci
 
 
@@ -143,17 +130,14 @@ def izvrsi_simulaciju(analitika, argumenti):
     _naslov("2) SIMULACIJA (diskretno-dogadjajna)")
 
     trajanje_s = argumenti.minuti * 60.0
-    zagrevanje_s = argumenti.zagrevanje * 60.0
     zadatci = _napravi_zadatke(
-        analitika, trajanje_s, zagrevanje_s, argumenti.seme, argumenti.ponavljanja
+        analitika, trajanje_s, argumenti.seme, argumenti.ponavljanja
     )
     procesi = argumenti.procesi or mp.cpu_count()
     procesi = max(1, min(procesi, mp.cpu_count()))
 
     print(f"Simulirano vreme rada sistema: {argumenti.minuti:g} min "
           f"({trajanje_s:g} s) po izvršavanju")
-    if zagrevanje_s > 0:
-        print(f"Odbacuje se prelazni režim: prvih {argumenti.zagrevanje:g} min")
     print(f"Kombinacija (K, r): {len(parametri.K_VREDNOSTI) * len(parametri.R_VREDNOSTI)}"
           f"   ponavljanja po kombinaciji: {argumenti.ponavljanja}")
     print(f"Ukupno izvršavanja simulacije: {len(zadatci)}   "
@@ -169,16 +153,15 @@ def izvrsi_simulaciju(analitika, argumenti):
         if redni_broj % max(1, len(zadatci) // 40) == 0 or redni_broj == len(zadatci):
             proteklo = time.perf_counter() - pocetak
             udeo = redni_broj / len(zadatci)
-            preostalo = proteklo / udeo - proteklo if udeo > 0 else 0.0
             print(f"\r  napredak: {redni_broj:5d}/{len(zadatci)} "
-                  f"({udeo * 100:5.1f} %)   proteklo {_trajanje(proteklo)}"
-                  f"   preostalo ~{_trajanje(preostalo)}      ",
+                  f"({udeo * 100:5.1f} %)   proteklo {_trajanje(proteklo)}      ",
                   end="", flush=True)
 
     if procesi == 1:
         for i, zadatak in enumerate(zadatci, start=1):
             zabelezi(simulacija.posao_simulacije(zadatak), i)
     else:
+        # svako izvršavanje je nezavisno, pa se poslovi dele na sva jezgra
         with mp.Pool(processes=procesi) as bazen:
             for i, rezultat in enumerate(
                 bazen.imap_unordered(simulacija.posao_simulacije, zadatci, chunksize=1),
@@ -199,8 +182,6 @@ def izvrsi_simulaciju(analitika, argumenti):
             simulacija_1[(K, r)] = simulacija.u_rezultat(lista[0], r, alpha_max)
             usrednjeno[(K, r)] = simulacija.usrednji(lista, r, alpha_max)
 
-    sacuvaj_kes(simulacija_1, usrednjeno, argumenti)
-
     f3 = izvestaji.upisi_simulacione_rezultate(
         DIR_REZULTATI, simulacija_1, argumenti.minuti
     )
@@ -213,53 +194,11 @@ def izvrsi_simulaciju(analitika, argumenti):
 
 
 # ---------------------------------------------------------------------------
-# Keširanje rezultata simulacije
-# ---------------------------------------------------------------------------
-def sacuvaj_kes(simulacija_1, usrednjeno, argumenti):
-    """
-    Čuva rezultate simulacije da bi izveštaji, dijagrami i dokumentacija mogli
-    da se ponovo generišu bez ponovnog simuliranja (opcija --ucitaj).
-    """
-    with open(DATOTEKA_KESA, "wb") as f:
-        pickle.dump(
-            {
-                "simulacija_1": simulacija_1,
-                "usrednjeno": usrednjeno,
-                "minuti": argumenti.minuti,
-                "ponavljanja": argumenti.ponavljanja,
-                "zagrevanje": argumenti.zagrevanje,
-                "seme": argumenti.seme,
-            },
-            f,
-        )
-
-
-def ucitaj_kes(argumenti):
-    """Učitava sačuvane rezultate simulacije i usklađuje parametre pokretanja."""
-    if not os.path.exists(DATOTEKA_KESA):
-        raise SystemExit(
-            f"Nema sačuvanih rezultata ({os.path.relpath(DATOTEKA_KESA, OVDE)}). "
-            "Pokrenite program bez opcije --ucitaj."
-        )
-    with open(DATOTEKA_KESA, "rb") as f:
-        podaci = pickle.load(f)
-    argumenti.minuti = podaci["minuti"]
-    argumenti.ponavljanja = podaci["ponavljanja"]
-    argumenti.zagrevanje = podaci["zagrevanje"]
-    argumenti.seme = podaci["seme"]
-    _naslov("2) SIMULACIJA — učitani sačuvani rezultati")
-    print(f"Izvor: {os.path.relpath(DATOTEKA_KESA, OVDE)}")
-    print(f"Simulirano vreme rada sistema: {argumenti.minuti:g} min po izvršavanju, "
-          f"ponavljanja: {argumenti.ponavljanja}")
-    return podaci["simulacija_1"], podaci["usrednjeno"]
-
-
-# ---------------------------------------------------------------------------
-# Poređenje, dijagrami, dokumentacija
+# 3) Poređenje i 4) dijagrami
 # ---------------------------------------------------------------------------
 def izvrsi_poredjenje(analitika, simulacija_1, usrednjeno, argumenti):
     _naslov("3) POREĐENJE ANALITIKE I SIMULACIJE")
-    putanja, tabele = poredjenje.upisi_poredjenje(
+    putanja, tabele = izvestaji.upisi_poredjenje(
         DIR_REZULTATI, analitika, simulacija_1, usrednjeno,
         argumenti.minuti, argumenti.ponavljanja,
     )
@@ -267,7 +206,7 @@ def izvrsi_poredjenje(analitika, simulacija_1, usrednjeno, argumenti):
     print(f"{'K':>3}{'r':>7}{'1 simulacija [%]':>20}{'usrednjeno [%]':>18}"
           f"{'odnos':>9}")
     print("-" * 57)
-    for K, r, mao_sim, mao_usr, _ in poredjenje.sumarna_tabela(tabele):
+    for K, r, mao_sim, mao_usr, _ in izvestaji.sumarna_tabela(tabele):
         odnos = mao_sim / mao_usr if (mao_sim and mao_usr) else float("nan")
         print(f"{K:>3}{r:>7.2f}{mao_sim:>20.4f}{mao_usr:>18.4f}{odnos:>9.2f}")
     print("(srednje apsolutno relativno odstupanje od analitičkog rešenja)")
@@ -305,31 +244,11 @@ def main(argv=None):
 
     simulacija_1 = usrednjeno = None
     if not argumenti.bez_simulacije:
-        if argumenti.ucitaj:
-            simulacija_1, usrednjeno = ucitaj_kes(argumenti)
-            izvestaji.upisi_simulacione_rezultate(
-                DIR_REZULTATI, simulacija_1, argumenti.minuti
-            )
-            izvestaji.upisi_usrednjene_rezultate(
-                DIR_REZULTATI, usrednjeno, argumenti.minuti, argumenti.ponavljanja
-            )
-        else:
-            simulacija_1, usrednjeno = izvrsi_simulaciju(analitika, argumenti)
+        simulacija_1, usrednjeno = izvrsi_simulaciju(analitika, argumenti)
         izvrsi_poredjenje(analitika, simulacija_1, usrednjeno, argumenti)
 
-    putanje_grafika = []
     if not argumenti.bez_grafika:
-        putanje_grafika = izvrsi_grafike(
-            analitika, tabela_granicnih, simulacija_1, usrednjeno
-        )
-
-    if not argumenti.bez_dokumentacije:
-        _naslov("5) DOKUMENTACIJA")
-        putanja = dokumentacija.napisi(
-            OVDE, analitika, tabela_granicnih, simulacija_1, usrednjeno,
-            argumenti, putanje_grafika,
-        )
-        print(f"Upisano: {os.path.relpath(putanja, OVDE)}")
+        izvrsi_grafike(analitika, tabela_granicnih, simulacija_1, usrednjeno)
 
     _naslov(f"GOTOVO za {_trajanje(time.perf_counter() - ukupno_pocetak)}")
     print(f"Rezultati: {os.path.relpath(DIR_REZULTATI, OVDE)}")

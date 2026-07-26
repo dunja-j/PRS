@@ -75,8 +75,7 @@ def kumulativno_rutiranje(K):
 class MerenjaSimulacije:
     K: int
     alpha: float
-    trajanje: float            # posmatrani (statistički) interval [s]
-    zagrevanje: float          # odbačeni početni interval [s]
+    trajanje: float            # simulirano vreme rada sistema [s]
     seme: int
     rho: list                  # iskorišćenja po čvoru
     X: list                    # protoci po čvoru [1/s]
@@ -92,23 +91,20 @@ class MerenjaSimulacije:
 # ---------------------------------------------------------------------------
 # Jedno izvršavanje simulacije
 # ---------------------------------------------------------------------------
-def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
+def simuliraj(K, alpha, trajanje_s, seme=None):
     """
     Jedno izvršavanje DES simulacije.
 
-    K            - broj korisničkih diskova
-    alpha        - intenzitet Poasonovog ulaznog toka [1/s]
-    trajanje_s   - ukupno simulirano vreme rada sistema [s]
-    seme         - seme generatora slučajnih brojeva (reproducibilnost)
-    zagrevanje_s - početni interval čija se statistika odbacuje (podrazumevano 0;
-                   mreža startuje prazna, pa je moguće odbaciti prelazni režim)
+    K          - broj korisničkih diskova
+    alpha      - intenzitet Poasonovog ulaznog toka [1/s]
+    trajanje_s - simulirano vreme rada sistema [s]
+    seme       - seme generatora slučajnih brojeva (reproducibilnost)
+
+    Mreža na početku nema nijedan posao i simulira se do trenutka 'kraj'.
     """
     n = parametri.broj_cvorova(K)
     tabela = kumulativno_rutiranje(K)
     kraj = float(trajanje_s)
-    t0 = float(zagrevanje_s)
-    if t0 >= kraj:
-        raise ValueError("zagrevanje mora biti kraće od trajanja simulacije")
 
     rng = random.Random(seme)
     slucajan = rng.random
@@ -133,7 +129,7 @@ def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
     povrsina = [0.0] * n           # integral broja poslova po vremenu
     zauzeto = [0.0] * n            # ukupno vreme zauzetosti servera
     zavrseno = [0] * n             # broj završenih opsluživanja
-    poslednja_promena = [t0] * n   # trenutak poslednje promene broja poslova
+    poslednja_promena = [0.0] * n  # trenutak poslednje promene broja poslova
     dolazaka = 0
     izlazaka = 0
     suma_vremena_u_sistemu = 0.0
@@ -154,17 +150,15 @@ def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
                 (t - sredni_medjudolazak * log(1.0 - slucajan()), DOLAZAK,
                  parametri.IDX_PROCESOR),
             )
-            if t >= t0:
-                dolazaka += 1
+            dolazaka += 1
             ulazak = t
             cilj = parametri.IDX_PROCESOR
         else:
             # --- završetak opsluživanja u čvoru i ---
-            if t >= t0:
-                povrsina[i] += broj[i] * (t - poslednja_promena[i])
-                poslednja_promena[i] = t
-                zauzeto[i] += t - max(obrada_od[i], t0)
-                zavrseno[i] += 1
+            povrsina[i] += broj[i] * (t - poslednja_promena[i])
+            poslednja_promena[i] = t
+            zauzeto[i] += t - obrada_od[i]
+            zavrseno[i] += 1
             broj[i] -= 1
             ulazak = na_obradi[i]
 
@@ -189,16 +183,14 @@ def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
                     break
 
             if cilj == IZLAZ:
-                if ulazak >= t0:
-                    izlazaka += 1
-                    suma_vremena_u_sistemu += t - ulazak
+                izlazaka += 1
+                suma_vremena_u_sistemu += t - ulazak
                 continue
 
         # --- ulazak posla (novog ili pristiglog iz drugog čvora) u čvor 'cilj' ---
         j = cilj
-        if t >= t0:
-            povrsina[j] += broj[j] * (t - poslednja_promena[j])
-            poslednja_promena[j] = t
+        povrsina[j] += broj[j] * (t - poslednja_promena[j])
+        poslednja_promena[j] = t
         broj[j] += 1
         if not zauzet[j]:
             zauzet[j] = True
@@ -212,9 +204,9 @@ def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
     for i in range(n):
         povrsina[i] += broj[i] * (kraj - poslednja_promena[i])
         if zauzet[i]:
-            zauzeto[i] += kraj - max(obrada_od[i], t0)
+            zauzeto[i] += kraj - obrada_od[i]
 
-    T = kraj - t0
+    T = kraj
     rho = [z / T for z in zauzeto]
     X = [c / T for c in zavrseno]
     N = [p / T for p in povrsina]
@@ -227,7 +219,6 @@ def simuliraj(K, alpha, trajanje_s, seme=None, zagrevanje_s=0.0):
         K=K,
         alpha=alpha,
         trajanje=T,
-        zagrevanje=t0,
         seme=seme,
         rho=rho,
         X=X,
@@ -282,7 +273,6 @@ def u_rezultat(merenja, r, alpha_max, V=None, metod="simulacija", dodatno=None):
 
     osnovno = {
         "trajanje": merenja.trajanje,
-        "zagrevanje": merenja.zagrevanje,
         "seme": merenja.seme,
         "broj_dolazaka": merenja.broj_dolazaka,
         "broj_izlazaka": merenja.broj_izlazaka,
@@ -365,7 +355,6 @@ def usrednji(lista_merenja, r, alpha_max, metod="simulacija-usrednjeno"):
         K=K,
         alpha=lista_merenja[0].alpha,
         trajanje=_srednja_vrednost([mer.trajanje for mer in lista_merenja]),
-        zagrevanje=lista_merenja[0].zagrevanje,
         seme=None,
         rho=sredine["rho"],
         X=sredine["X"],
@@ -410,8 +399,8 @@ def seme_za(bazno_seme, K, indeks_r, ponavljanje):
 
 def posao_simulacije(zadatak):
     """
-    Jedan posao za radni proces: (K, alpha, trajanje_s, seme, zagrevanje_s, kljuc).
+    Jedan posao za radni proces: (K, alpha, trajanje_s, seme, kljuc).
     Vraća (kljuc, MerenjaSimulacije).
     """
-    K, alpha, trajanje_s, seme, zagrevanje_s, kljuc = zadatak
-    return kljuc, simuliraj(K, alpha, trajanje_s, seme, zagrevanje_s)
+    K, alpha, trajanje_s, seme, kljuc = zadatak
+    return kljuc, simuliraj(K, alpha, trajanje_s, seme)

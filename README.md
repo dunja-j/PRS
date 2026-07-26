@@ -8,7 +8,7 @@ Program radi tri stvari:
 
 1. **analitički** rešava mrežu (matrični metod za protoke + Džeksonova teorema),
 2. **simulira** je diskretno-dogadjajnom simulacijom (DES),
-3. **poredi** rezultate, crta dijagrame i generiše dokumentaciju.
+3. **poredi** rezultate i crta dijagrame.
 
 ## Pokretanje
 
@@ -25,9 +25,9 @@ py main.py
 Podrazumevano: 30 min (0.5 h) simuliranog vremena rada sistema po izvršavanju i
 100 ponavljanja po kombinaciji (K, r), tj. 1600 izvršavanja simulacije.
 Izvršavanja se raspoređuju na sva jezgra procesora; na računaru sa 8 jezgara
-ceo proračun traje oko 8 minuta.
+ceo proračun traje oko 10 minuta.
 
-Korisne opcije:
+Za brzu proveru (5 min simuliranog vremena, 5 ponavljanja, gotovo za ~15 s):
 
 ```bash
 py main.py --brzo
@@ -37,22 +37,11 @@ py main.py --brzo
 |---|---|---|
 | `--minuti M` | simulirano vreme rada sistema po izvršavanju [min] | 30 |
 | `--ponavljanja N` | broj ponavljanja simulacije po kombinaciji (K, r) | 100 |
-| `--zagrevanje M` | početni interval čija se statistika odbacuje [min] | 0 |
 | `--seme S` | bazno seme generatora slučajnih brojeva | 20260726 |
 | `--procesi N` | broj paralelnih procesa (0 = broj jezgara) | 0 |
 | `--brzo` | brza provera: 5 min, 5 ponavljanja | — |
-| `--ucitaj` | ne simuliraj ponovo, iskoristi rezultate poslednje simulacije (`kes_simulacije.pkl`) | — |
 | `--bez-simulacije` | samo analitika i dijagrami | — |
 | `--bez-grafika` | ne crtaj dijagrame | — |
-| `--bez-dokumentacije` | ne generiši dokumentaciju | — |
-
-Posle uspešnog pokretanja rezultati simulacije se čuvaju u `kes_simulacije.pkl`,
-pa se izveštaji, dijagrami i dokumentacija mogu ponovo generisati za nekoliko
-sekundi, bez ponovnog simuliranja:
-
-```bash
-py main.py --ucitaj
-```
 
 Rezultati su reproducibilni: isto bazno seme daje identične rezultate jer se
 seme svakog pojedinačnog izvršavanja izvodi determinističkim pravilom iz
@@ -63,16 +52,12 @@ baznog semena, broja K, indeksa r i rednog broja ponavljanja.
 | Fajl | Sadržaj |
 |---|---|
 | `parametri.py` | ulazni parametri sistema, matrica verovatnoća tranzicija P, vektor brzina servera |
-| `linearna_algebra.py` | Gausova eliminacija sa parcijalnim pivotiranjem (bez numpy-a) |
-| `analiticki.py` | matrični metod, α_max i kritični resurs, Džeksonova teorema |
+| `analiticki.py` | Gausova eliminacija, matrični metod, α_max i kritični resurs, Džeksonova teorema |
 | `simulacija.py` | diskretno-dogadjajna simulacija i usrednjavanje ponavljanja |
 | `rezultat.py` | zajedničke strukture rezultata (isti tip za analitiku i simulaciju) |
-| `izvestaji.py` | formatiranje i upis izlaznih fajlova |
-| `poredjenje.py` | relativna odstupanja i tabele poređenja |
+| `izvestaji.py` | formatiranje i upis izlaznih fajlova, tabele relativnih odstupanja |
 | `grafici.py` | crtanje svih dijagrama |
-| `dokumentacija.py` | generisanje dokumentacije (`.md` i `.html`) |
 | `main.py` | glavni program |
-| `test_provera.py` | provere ispravnosti (pokreće se sa `py test_provera.py`) |
 
 ## Izlazni fajlovi
 
@@ -87,11 +72,11 @@ Direktorijum `rezultati/`:
 | `poredjenje.txt` | tabele relativnih odstupanja i sumarna tabela |
 
 Direktorijum `grafici/`: `alpha_max_vs_K.png`, `iskoriscenja_r*.png`,
-`vremena_odziva_servera_r*.png`, `vreme_odziva_sistema_r*.png` i dodatno
-`poredjenje_T_sistem_r*.png`, `poredjenje_iskoriscenja_r*.png`.
+`vremena_odziva_servera_r*.png`, `vreme_odziva_sistema_r*.png` (13 dijagrama
+traženih postavkom) i dodatno `poredjenje_T_sistem_r*.png` (4 dijagrama koji
+porede analitiku sa simulacijom).
 
-Dokumentacija: `dokumentacija.md` i `dokumentacija.html` (HTML je pogodan za
-štampu — otvoriti u veb čitaču i odštampati).
+Dokumentacija: `dokumentacija.md`.
 
 ## Ukratko o metodama
 

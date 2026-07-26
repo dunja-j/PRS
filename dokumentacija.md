@@ -1,6 +1,6 @@
 # Performanse računarskih sistema — analiza i simulacija otvorene mreže
 
-Ovaj dokument opisuje analitičko rešavanje i simulaciju multiprogramskog računara modelovanog otvorenom mrežom sa procesorom, tri sistemska diska i **K** korisničkih diskova (K = 2..5), i poredi dobijene rezultate. Sve tabele u dokumentu generisane su iz stvarnih rezultata programa.
+Ovaj dokument opisuje analitičko rešavanje i simulaciju multiprogramskog računara modelovanog otvorenom mrežom sa procesorom, tri sistemska diska i **K** korisničkih diskova (K = 2..5), i poredi dobijene rezultate. Sve vrednosti u tabelama su brojevi koje je program stvarno izračunao.
 
 ## 1. Opis sistema i model
 
@@ -44,7 +44,7 @@ Pošto ceo spoljni tok ulazi u procesor, važi alpha_vektor = α·e, gde je e = 
 (I - P^T) * V = e,      V_i = lambda_i / alpha = X_i / alpha
 ```
 
-V_i je koeficijent poseta, tj. traženi odnos protoka kroz server i intenziteta ulaznog toka. Sistem se u programu rešava Gausovom eliminacijom sa parcijalnim pivotiranjem (`linearna_algebra.resi_sistem`), a tačnost se kontroliše rezidualom max|(I − Pᵀ)V − e| (reda 10⁻¹⁶). Protoci su onda linearne funkcije ulaznog toka: **X_i(α) = V_i · α**.
+V_i je koeficijent poseta, tj. traženi odnos protoka kroz server i intenziteta ulaznog toka. Sistem se u programu rešava Gausovom eliminacijom sa parcijalnim pivotiranjem (`analiticki.resi_sistem`), a tačnost se kontroliše rezidualom max|(I − Pᵀ)V − e| (reda 10⁻¹⁶). Protoci su onda linearne funkcije ulaznog toka: **X_i(α) = V_i · α**.
 
 **Koeficijenti poseta V_i = X_i/α (rešenje sistema (I − Pᵀ)V = e)**
 
@@ -185,7 +185,7 @@ T_sistem = (zbir vremena provedenih u sistemu) / (broj izaslih poslova)
 
 Integral broja poslova računa se inkrementalno: pri svakoj promeni broja poslova u čvoru dodaje se (trenutni broj) × (vreme od poslednje promene). Vreme provedeno u sistemu meri se tako što svaki posao nosi trenutak svog spoljnog dolaska kroz celu mrežu. Kao kontrola, program uz izmereno srednje vreme u sistemu ispisuje i vrednost N/α — po Litlovom zakonu te dve vrednosti moraju da se poklope, i u rezultatima se poklapaju na nekoliko decimala.
 
-Mreža na početku simulacije je prazna, pa sistem prvo prolazi kroz prelazni režim, što blago potcenjuje N i T. Uticaj je pri podrazumevanom trajanju od 30 minuta zanemarljiv (prelazni režim traje reda sekunde), a program ipak ima opciju `--zagrevanje` kojom se početni interval izbacuje iz statistike.
+Mreža na početku simulacije je prazna, pa sistem prvo prolazi kroz prelazni režim, što blago potcenjuje N i T. Uticaj je pri podrazumevanom trajanju od 30 minuta zanemarljiv: prelazni režim traje reda sekunde, dakle manje od 0.1 % simuliranog vremena, pa se statistika prikuplja od samog početka.
 
 ### 3.3 Ponavljanje i usrednjavanje
 
@@ -505,22 +505,6 @@ Vreme odziva sistema raste sa K sve dok kritični resurs ostaje korisnički disk
 
 *Vreme odziva sistema — analitika, jedna simulacija i usrednjena simulacija, za r = 1.00*
 
-![Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.30](grafici/poredjenje_iskoriscenja_r030.png)
-
-*Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.30*
-
-![Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.55](grafici/poredjenje_iskoriscenja_r055.png)
-
-*Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.55*
-
-![Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.80](grafici/poredjenje_iskoriscenja_r080.png)
-
-*Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 0.80*
-
-![Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 1.00](grafici/poredjenje_iskoriscenja_r100.png)
-
-*Iskorišćenje resursa — analitika (linije) i usrednjena simulacija (simboli), za r = 1.00*
-
 ## 6. Kritični resurs za svaku kombinaciju (r, K)
 
 Pošto je ρ_i = D_i · α, a α = r · α_max samo skalira sva iskorišćenja istim faktorom, **kritični resurs zavisi isključivo od K, ne i od r**. Vrednost r određuje koliko je kritični resurs opterećen: ρ kritičnog resursa je tačno jednako r.
@@ -563,13 +547,11 @@ Dva metoda se međusobno proveravaju: analitika daje tačne vrednosti pod pretpo
 | Fajl | Sadržaj |
 |---|---|
 | `parametri.py` | ulazni parametri sistema, matrica prelaza P, vektor brzina servera |
-| `linearna_algebra.py` | Gausova eliminacija sa parcijalnim pivotiranjem |
-| `analiticki.py` | matrični metod, α_max i kritični resurs, Džeksonova teorema |
+| `analiticki.py` | Gausova eliminacija, matrični metod, α_max i kritični resurs, Džeksonova teorema |
 | `simulacija.py` | diskretno-dogadjajna simulacija i usrednjavanje ponavljanja |
-| `izvestaji.py` | formatiranje i upis izlaznih fajlova |
-| `poredjenje.py` | relativna odstupanja i tabele poređenja |
+| `rezultat.py` | zajednička struktura rezultata za analitiku i simulaciju |
+| `izvestaji.py` | formatiranje i upis izlaznih fajlova, tabele relativnih odstupanja |
 | `grafici.py` | crtanje svih dijagrama |
-| `dokumentacija.py` | generisanje ovog dokumenta |
 | `main.py` | glavni program (pokreće sve) |
 | `rezultati/protoci_analiticki.txt` | matrica P, brzine servera, V_i = X_i/α, protoci |
 | `rezultati/rezultati_analiticki.txt` | α_max i kritični resursi, svi parametri po Džeksonu |

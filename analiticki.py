@@ -48,7 +48,6 @@ sistem sa ulaznim tokom lambda_i:
 
 import math
 
-import linearna_algebra as la
 import parametri
 from rezultat import RezultatCvora, RezultatSistema
 
@@ -61,6 +60,55 @@ TOLERANCIJA_STABILNOSTI = 1e-9
 
 
 # ---------------------------------------------------------------------------
+# 0) Gausova eliminacija (rešavanje sistema A * x = b)
+# ---------------------------------------------------------------------------
+class SingularnaMatrica(Exception):
+    """Sistem jednačina nema jedinstveno rešenje."""
+
+
+def resi_sistem(A, b, tolerancija=1e-12):
+    """
+    Rešava sistem linearnih jednačina A * x = b Gausovom eliminacijom sa
+    parcijalnim pivotiranjem. Matrica A i vektor b se ne menjaju.
+
+    Vraća listu x. Diže SingularnaMatrica ako je sistem singularan.
+    """
+    n = len(A)
+    if any(len(red) != n for red in A) or len(b) != n:
+        raise ValueError("dimenzije matrice A i vektora b se ne poklapaju")
+
+    # proširena matrica [A | b] — radimo nad kopijom
+    M = [list(red) + [b[i]] for i, red in enumerate(A)]
+
+    for kolona in range(n):
+        # --- parcijalno pivotiranje: najveći element po apsolutnoj vrednosti ---
+        pivot_red = max(range(kolona, n), key=lambda r: abs(M[r][kolona]))
+        if abs(M[pivot_red][kolona]) < tolerancija:
+            raise SingularnaMatrica(
+                f"matrica je singularna (pivot u koloni {kolona} je ~0)"
+            )
+        if pivot_red != kolona:
+            M[kolona], M[pivot_red] = M[pivot_red], M[kolona]
+
+        pivot = M[kolona][kolona]
+        # --- eliminacija ispod pivota ---
+        for red in range(kolona + 1, n):
+            faktor = M[red][kolona] / pivot
+            if faktor == 0.0:
+                continue
+            M[red][kolona] = 0.0
+            for k in range(kolona + 1, n + 1):
+                M[red][k] -= faktor * M[kolona][k]
+
+    # --- povratna substitucija ---
+    x = [0.0] * n
+    for red in range(n - 1, -1, -1):
+        suma = M[red][n] - sum(M[red][k] * x[k] for k in range(red + 1, n))
+        x[red] = suma / M[red][red]
+    return x
+
+
+# ---------------------------------------------------------------------------
 # 1) Koeficijenti poseta i protoci
 # ---------------------------------------------------------------------------
 def matrica_sistema(K):
@@ -70,9 +118,7 @@ def matrica_sistema(K):
     """
     n = parametri.broj_cvorova(K)
     P = parametri.matrica_prelaza(K)
-    I = la.jedinicna(n)
-    Pt = la.transponuj(P)
-    return la.razlika(I, Pt)
+    return [[(1.0 if i == j else 0.0) - P[j][i] for j in range(n)] for i in range(n)]
 
 
 def vektor_ulaznog_toka(K, alpha=1.0):
@@ -90,21 +136,16 @@ def koeficijenti_poseta(K):
     """
     A = matrica_sistema(K)
     e = vektor_ulaznog_toka(K, 1.0)
-    return la.resi_sistem(A, e)
+    return resi_sistem(A, e)
 
 
 def greska_resenja(K, V):
     """Rezidual max|(I - P^T)V - e| — kontrola numeričke tačnosti."""
     A = matrica_sistema(K)
     e = vektor_ulaznog_toka(K, 1.0)
-    return la.maksimalna_greska_resenja(A, V, e)
-
-
-def protoci(K, alpha, V=None):
-    """Protoci kroz servere X_i = V_i * alpha [1/s]."""
-    if V is None:
-        V = koeficijenti_poseta(K)
-    return [v * alpha for v in V]
+    return max(
+        abs(sum(a * v for a, v in zip(red, V)) - bi) for red, bi in zip(A, e)
+    )
 
 
 def zahtevi_opsluzivanja(K, V=None):
@@ -118,15 +159,6 @@ def zahtevi_opsluzivanja(K, V=None):
 # ---------------------------------------------------------------------------
 # 2) Granični intenzitet ulaznog toka i kritični resurs
 # ---------------------------------------------------------------------------
-def ogranicenja_alfe(K, V=None):
-    """
-    Za svaki server gornja granica ulaznog toka alpha < 1 / (V_i * S_i).
-    Serveri kroz koje posao ne prolazi (V_i = 0) ne ograničavaju alpha.
-    """
-    D = zahtevi_opsluzivanja(K, V)
-    return [(1.0 / d if d > 0.0 else math.inf) for d in D]
-
-
 def granicni_intenzitet(K, V=None, relativna_tolerancija=1e-9):
     """
     Vraća (alpha_max, kriticni_indeksi, D) gde je:
@@ -142,16 +174,6 @@ def granicni_intenzitet(K, V=None, relativna_tolerancija=1e-9):
         i for i, d in enumerate(D) if abs(d - D_max) <= relativna_tolerancija * D_max
     )
     return alpha_max, kriticni, D
-
-
-def kriticni_resurs_za_alfu(K, alpha, V=None, relativna_tolerancija=1e-9):
-    """
-    Kritični resurs za konkretan alpha. Pošto je rho_i = D_i * alpha, kritični
-    resurs ne zavisi od alpha (isti je za svako r) — funkcija postoji da bi to
-    bilo eksplicitno u izveštajima.
-    """
-    _, kriticni, _ = granicni_intenzitet(K, V, relativna_tolerancija)
-    return kriticni
 
 
 # ---------------------------------------------------------------------------

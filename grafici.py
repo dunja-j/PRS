@@ -2,14 +2,13 @@
 Crtanje traženih dijagrama (matplotlib).
 
 Dijagrami se prave na osnovu analitičkih rezultata (kako zadatak traži), uz
-dodatna dva skupa dijagrama koji analitiku porede sa simulacijom.
+dodatni skup dijagrama koji analitiku porede sa simulacijom.
 
   alpha_max_vs_K.png                 - granični intenzitet u funkciji od K
   iskoriscenja_r{rr}.png             - rho(K) za procesor, sistemske i korisnički disk
   vremena_odziva_servera_r{rr}.png   - W(K) za procesor, sistemske i korisnički disk
   vreme_odziva_sistema_r{rr}.png     - T_sistem(K)
   poredjenje_T_sistem_r{rr}.png      - T_sistem(K): analitika vs simulacija (dodatno)
-  poredjenje_iskoriscenja_r{rr}.png  - rho(K): analitika vs simulacija (dodatno)
 
 Za r = 1.00 kritični resurs ima rho = 1, pa su N, W i T_sistem beskonačni —
 takve tačke se ne mogu nacrtati i na dijagramu se eksplicitno naglašavaju.
@@ -284,31 +283,6 @@ def crtaj_poredjenje_vremena_odziva(direktorijum, analitika, simulacija_1,
     return _sacuvaj(fig, direktorijum, f"poredjenje_T_sistem_{oznaka_r(r)}.png")
 
 
-def crtaj_poredjenje_iskoriscenja(direktorijum, analitika, usrednjeno, r,
-                                  K_vrednosti=None):
-    if K_vrednosti is None:
-        K_vrednosti = parametri.K_VREDNOSTI
-    fig, ax = plt.subplots(figsize=(7.5, 5))
-    for kljuc in REDOSLED:
-        ime, boja, marker, stil = STIL[kljuc]
-        ya = [_vrednost(analitika[(K, r)], kljuc, "rho") for K in K_vrednosti]
-        yu = [_vrednost(usrednjeno[(K, r)], kljuc, "rho") for K in K_vrednosti]
-        ax.plot(K_vrednosti, ya, color=boja, linestyle=stil, linewidth=1.6,
-                label=f"{ime} — analitika")
-        ax.plot(K_vrednosti, yu, color=boja, linestyle="none", marker=marker,
-                markersize=8, markerfacecolor="none", label=f"{ime} — simulacija")
-    ax.set_ylim(0, 1.12)
-    ax.legend(loc="best", fontsize=7, ncol=2)
-    ax.set_title(
-        f"Iskorišćenje resursa: analitika vs usrednjena simulacija   (r = {r:.2f})"
-    )
-    ax.set_xlabel("K (broj korisničkih diskova)")
-    ax.set_ylabel(r"iskorišćenje $\rho$")
-    ax.set_xticks(list(K_vrednosti))
-    ax.grid(True, linestyle=":", alpha=0.6)
-    return _sacuvaj(fig, direktorijum, f"poredjenje_iskoriscenja_{oznaka_r(r)}.png")
-
-
 # ---------------------------------------------------------------------------
 # Sve odjednom
 # ---------------------------------------------------------------------------
@@ -335,11 +309,6 @@ def nacrtaj_sve(direktorijum, analitika, tabela_granicnih, simulacija_1=None,
             putanje.append(
                 crtaj_poredjenje_vremena_odziva(
                     direktorijum, analitika, simulacija_1, usrednjeno, r, K_vrednosti
-                )
-            )
-            putanje.append(
-                crtaj_poredjenje_iskoriscenja(
-                    direktorijum, analitika, usrednjeno, r, K_vrednosti
                 )
             )
     return putanje

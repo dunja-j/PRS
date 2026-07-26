@@ -11,14 +11,6 @@ from dataclasses import dataclass, field
 
 import parametri
 
-# Metrike koje se porede: (atribut, oznaka u tabeli, faktor za prikaz)
-METRIKE_CVORA = (
-    ("X", "X [1/s]", 1.0),        # protok kroz server
-    ("rho", "rho [-]", 1.0),      # iskorišćenje servera
-    ("N", "N [-]", 1.0),          # prosečan broj poslova u serveru
-    ("W", "W [ms]", 1000.0),      # vreme odziva servera (po jednom prolazu)
-)
-
 
 @dataclass
 class RezultatCvora:
