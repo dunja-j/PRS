@@ -1,0 +1,250 @@
+============================================================================================
+PROTOCI KROZ SERVERE — MATRIČNI METOD ZA OTVORENE MREŽE
+============================================================================================
+
+Vremena opsluživanja: Sp = 4 ms, Sd1 = 10 ms, Sd2 = Sd3 = 15 ms, Sdk = 25 ms (eksponencijalna raspodela)
+Rutiranje posle procesora: 20% SD1, 15% SD2, 10% SD3, 40% korisnički diskovi (ravnomerno), 15% natrag u red procesora
+Rutiranje posle sistemskog diska: 35% red procesora, 25% isti disk, 40% korisnički diskovi (ravnomerno)
+Posle korisničkog diska posao napušta sistem.
+
+Jednačine ravnoteže protoka:   (I - P^T) * lambda = alpha_vektor
+Ceo spoljni tok ulazi u procesor, pa je alpha_vektor = alpha * e,
+e = [1, 0, ..., 0]^T. Deljenjem sa alpha dobija se sistem za odnose
+protoka i intenziteta ulaznog toka (koeficijente poseta):
+
+        (I - P^T) * V = e,        V_i = lambda_i / alpha = X_i / alpha
+
+Protoci su linearne funkcije ulaznog toka:   X_i(alpha) = V_i * alpha.
+
+
+============================================================================================
+K = 2   (broj čvorova n = 6)
+============================================================================================
+
+Matrica verovatnoća tranzicija P (red = iz, kolona = u):
+
+             CPU     SD1     SD2     SD3     KD1     KD2   IZLAZ
+CPU       0.1500  0.2000  0.1500  0.1000  0.2000  0.2000  0.0000
+SD1       0.3500  0.2500  0.0000  0.0000  0.2000  0.2000  0.0000
+SD2       0.3500  0.0000  0.2500  0.0000  0.2000  0.2000  0.0000
+SD3       0.3500  0.0000  0.0000  0.2500  0.2000  0.2000  0.0000
+KD1       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD2       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+
+Vektor brzina servera mi_i = 1 / S_i:
+
+Server                  S_i [ms]    mi_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                   4.000      250.0000
+Sistemski disk 1          10.000      100.0000
+Sistemski disk 2          15.000       66.6667
+Sistemski disk 3          15.000       66.6667
+Korisnički disk 1         25.000       40.0000
+Korisnički disk 2         25.000       40.0000
+
+Rešenje sistema (I - P^T) V = e  —  odnosi protoka i ulaznog toka:
+
+Server                 V_i = X_i/alpha    D_i = V_i*S_i [ms]   1/D_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                      1.562500                6.2500      160.0000
+Sistemski disk 1              0.416667                4.1667      240.0000
+Sistemski disk 2              0.312500                4.6875      213.3333
+Sistemski disk 3              0.208333                3.1250      320.0000
+Korisnički disk 1             0.500000               12.5000       80.0000
+Korisnički disk 2             0.500000               12.5000       80.0000
+--------------------------------------------------------------------------------------------
+Rezidual max|(I - P^T)V - e| = 9.021e-17   (kontrola tačnosti Gausove eliminacije)
+Suma V_i po korisničkim diskovima = 1.000000 (svaki posao izlazi iz sistema tačno jednom preko korisničkog diska)
+alpha_max = 1 / max(D_i) = 80.0000 1/s   kritični resurs: svi korisnički diskovi
+
+Protoci X_i = V_i * alpha za razmatrane intenzitete ulaznog toka alpha = r * alpha_max [1/s]:
+
+Server                        r=0.30          r=0.55          r=0.80          r=1.00
+alpha [1/s]                  24.0000         44.0000         64.0000         80.0000
+--------------------------------------------------------------------------------------------
+Procesor                     37.5000         68.7500        100.0000        125.0000
+Sistemski disk 1             10.0000         18.3333         26.6667         33.3333
+Sistemski disk 2              7.5000         13.7500         20.0000         25.0000
+Sistemski disk 3              5.0000          9.1667         13.3333         16.6667
+Korisnički disk 1            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 2            12.0000         22.0000         32.0000         40.0000
+
+============================================================================================
+K = 3   (broj čvorova n = 7)
+============================================================================================
+
+Matrica verovatnoća tranzicija P (red = iz, kolona = u):
+
+             CPU     SD1     SD2     SD3     KD1     KD2     KD3   IZLAZ
+CPU       0.1500  0.2000  0.1500  0.1000  0.1333  0.1333  0.1333  0.0000
+SD1       0.3500  0.2500  0.0000  0.0000  0.1333  0.1333  0.1333  0.0000
+SD2       0.3500  0.0000  0.2500  0.0000  0.1333  0.1333  0.1333  0.0000
+SD3       0.3500  0.0000  0.0000  0.2500  0.1333  0.1333  0.1333  0.0000
+KD1       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD2       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD3       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+
+Vektor brzina servera mi_i = 1 / S_i:
+
+Server                  S_i [ms]    mi_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                   4.000      250.0000
+Sistemski disk 1          10.000      100.0000
+Sistemski disk 2          15.000       66.6667
+Sistemski disk 3          15.000       66.6667
+Korisnički disk 1         25.000       40.0000
+Korisnički disk 2         25.000       40.0000
+Korisnički disk 3         25.000       40.0000
+
+Rešenje sistema (I - P^T) V = e  —  odnosi protoka i ulaznog toka:
+
+Server                 V_i = X_i/alpha    D_i = V_i*S_i [ms]   1/D_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                      1.562500                6.2500      160.0000
+Sistemski disk 1              0.416667                4.1667      240.0000
+Sistemski disk 2              0.312500                4.6875      213.3333
+Sistemski disk 3              0.208333                3.1250      320.0000
+Korisnički disk 1             0.333333                8.3333      120.0000
+Korisnički disk 2             0.333333                8.3333      120.0000
+Korisnički disk 3             0.333333                8.3333      120.0000
+--------------------------------------------------------------------------------------------
+Rezidual max|(I - P^T)V - e| = 5.551e-17   (kontrola tačnosti Gausove eliminacije)
+Suma V_i po korisničkim diskovima = 1.000000 (svaki posao izlazi iz sistema tačno jednom preko korisničkog diska)
+alpha_max = 1 / max(D_i) = 120.0000 1/s   kritični resurs: svi korisnički diskovi
+
+Protoci X_i = V_i * alpha za razmatrane intenzitete ulaznog toka alpha = r * alpha_max [1/s]:
+
+Server                        r=0.30          r=0.55          r=0.80          r=1.00
+alpha [1/s]                  36.0000         66.0000         96.0000        120.0000
+--------------------------------------------------------------------------------------------
+Procesor                     56.2500        103.1250        150.0000        187.5000
+Sistemski disk 1             15.0000         27.5000         40.0000         50.0000
+Sistemski disk 2             11.2500         20.6250         30.0000         37.5000
+Sistemski disk 3              7.5000         13.7500         20.0000         25.0000
+Korisnički disk 1            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 2            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 3            12.0000         22.0000         32.0000         40.0000
+
+============================================================================================
+K = 4   (broj čvorova n = 8)
+============================================================================================
+
+Matrica verovatnoća tranzicija P (red = iz, kolona = u):
+
+             CPU     SD1     SD2     SD3     KD1     KD2     KD3     KD4   IZLAZ
+CPU       0.1500  0.2000  0.1500  0.1000  0.1000  0.1000  0.1000  0.1000  0.0000
+SD1       0.3500  0.2500  0.0000  0.0000  0.1000  0.1000  0.1000  0.1000  0.0000
+SD2       0.3500  0.0000  0.2500  0.0000  0.1000  0.1000  0.1000  0.1000  0.0000
+SD3       0.3500  0.0000  0.0000  0.2500  0.1000  0.1000  0.1000  0.1000  0.0000
+KD1       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD2       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD3       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD4       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+
+Vektor brzina servera mi_i = 1 / S_i:
+
+Server                  S_i [ms]    mi_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                   4.000      250.0000
+Sistemski disk 1          10.000      100.0000
+Sistemski disk 2          15.000       66.6667
+Sistemski disk 3          15.000       66.6667
+Korisnički disk 1         25.000       40.0000
+Korisnički disk 2         25.000       40.0000
+Korisnički disk 3         25.000       40.0000
+Korisnički disk 4         25.000       40.0000
+
+Rešenje sistema (I - P^T) V = e  —  odnosi protoka i ulaznog toka:
+
+Server                 V_i = X_i/alpha    D_i = V_i*S_i [ms]   1/D_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                      1.562500                6.2500      160.0000
+Sistemski disk 1              0.416667                4.1667      240.0000
+Sistemski disk 2              0.312500                4.6875      213.3333
+Sistemski disk 3              0.208333                3.1250      320.0000
+Korisnički disk 1             0.250000                6.2500      160.0000
+Korisnički disk 2             0.250000                6.2500      160.0000
+Korisnički disk 3             0.250000                6.2500      160.0000
+Korisnički disk 4             0.250000                6.2500      160.0000
+--------------------------------------------------------------------------------------------
+Rezidual max|(I - P^T)V - e| = 5.551e-17   (kontrola tačnosti Gausove eliminacije)
+Suma V_i po korisničkim diskovima = 1.000000 (svaki posao izlazi iz sistema tačno jednom preko korisničkog diska)
+alpha_max = 1 / max(D_i) = 160.0000 1/s   kritični resurs: Procesor i svi korisnički diskovi
+
+Protoci X_i = V_i * alpha za razmatrane intenzitete ulaznog toka alpha = r * alpha_max [1/s]:
+
+Server                        r=0.30          r=0.55          r=0.80          r=1.00
+alpha [1/s]                  48.0000         88.0000        128.0000        160.0000
+--------------------------------------------------------------------------------------------
+Procesor                     75.0000        137.5000        200.0000        250.0000
+Sistemski disk 1             20.0000         36.6667         53.3333         66.6667
+Sistemski disk 2             15.0000         27.5000         40.0000         50.0000
+Sistemski disk 3             10.0000         18.3333         26.6667         33.3333
+Korisnički disk 1            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 2            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 3            12.0000         22.0000         32.0000         40.0000
+Korisnički disk 4            12.0000         22.0000         32.0000         40.0000
+
+============================================================================================
+K = 5   (broj čvorova n = 9)
+============================================================================================
+
+Matrica verovatnoća tranzicija P (red = iz, kolona = u):
+
+             CPU     SD1     SD2     SD3     KD1     KD2     KD3     KD4     KD5   IZLAZ
+CPU       0.1500  0.2000  0.1500  0.1000  0.0800  0.0800  0.0800  0.0800  0.0800  0.0000
+SD1       0.3500  0.2500  0.0000  0.0000  0.0800  0.0800  0.0800  0.0800  0.0800  0.0000
+SD2       0.3500  0.0000  0.2500  0.0000  0.0800  0.0800  0.0800  0.0800  0.0800  0.0000
+SD3       0.3500  0.0000  0.0000  0.2500  0.0800  0.0800  0.0800  0.0800  0.0800  0.0000
+KD1       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD2       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD3       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD4       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+KD5       0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000  1.0000
+
+Vektor brzina servera mi_i = 1 / S_i:
+
+Server                  S_i [ms]    mi_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                   4.000      250.0000
+Sistemski disk 1          10.000      100.0000
+Sistemski disk 2          15.000       66.6667
+Sistemski disk 3          15.000       66.6667
+Korisnički disk 1         25.000       40.0000
+Korisnički disk 2         25.000       40.0000
+Korisnički disk 3         25.000       40.0000
+Korisnički disk 4         25.000       40.0000
+Korisnički disk 5         25.000       40.0000
+
+Rešenje sistema (I - P^T) V = e  —  odnosi protoka i ulaznog toka:
+
+Server                 V_i = X_i/alpha    D_i = V_i*S_i [ms]   1/D_i [1/s]
+--------------------------------------------------------------------------------------------
+Procesor                      1.562500                6.2500      160.0000
+Sistemski disk 1              0.416667                4.1667      240.0000
+Sistemski disk 2              0.312500                4.6875      213.3333
+Sistemski disk 3              0.208333                3.1250      320.0000
+Korisnički disk 1             0.200000                5.0000      200.0000
+Korisnički disk 2             0.200000                5.0000      200.0000
+Korisnički disk 3             0.200000                5.0000      200.0000
+Korisnički disk 4             0.200000                5.0000      200.0000
+Korisnički disk 5             0.200000                5.0000      200.0000
+--------------------------------------------------------------------------------------------
+Rezidual max|(I - P^T)V - e| = 5.551e-17   (kontrola tačnosti Gausove eliminacije)
+Suma V_i po korisničkim diskovima = 1.000000 (svaki posao izlazi iz sistema tačno jednom preko korisničkog diska)
+alpha_max = 1 / max(D_i) = 160.0000 1/s   kritični resurs: Procesor
+
+Protoci X_i = V_i * alpha za razmatrane intenzitete ulaznog toka alpha = r * alpha_max [1/s]:
+
+Server                        r=0.30          r=0.55          r=0.80          r=1.00
+alpha [1/s]                  48.0000         88.0000        128.0000        160.0000
+--------------------------------------------------------------------------------------------
+Procesor                     75.0000        137.5000        200.0000        250.0000
+Sistemski disk 1             20.0000         36.6667         53.3333         66.6667
+Sistemski disk 2             15.0000         27.5000         40.0000         50.0000
+Sistemski disk 3             10.0000         18.3333         26.6667         33.3333
+Korisnički disk 1             9.6000         17.6000         25.6000         32.0000
+Korisnički disk 2             9.6000         17.6000         25.6000         32.0000
+Korisnički disk 3             9.6000         17.6000         25.6000         32.0000
+Korisnički disk 4             9.6000         17.6000         25.6000         32.0000
+Korisnički disk 5             9.6000         17.6000         25.6000         32.0000

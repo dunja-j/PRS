@@ -1,0 +1,302 @@
+============================================================================================
+REZULTATI SIMULACIJE (jedno izvršavanje po kombinaciji parametara)
+============================================================================================
+
+Vremena opsluživanja: Sp = 4 ms, Sd1 = 10 ms, Sd2 = Sd3 = 15 ms, Sdk = 25 ms (eksponencijalna raspodela)
+Rutiranje posle procesora: 20% SD1, 15% SD2, 10% SD3, 40% korisnički diskovi (ravnomerno), 15% natrag u red procesora
+Rutiranje posle sistemskog diska: 35% red procesora, 25% isti disk, 40% korisnički diskovi (ravnomerno)
+Posle korisničkog diska posao napušta sistem.
+
+Simulirano vreme rada sistema: 30 min (1800 s)
+Metod: diskretno-dogadjajna simulacija (DES), FCFS red po serveru,
+eksponencijalna vremena opsluživanja, Poasonov ulazni tok.
+Merenja: rho_i = zauzeto_i/T, X_i = zavrseno_i/T, N_i = integral broja poslova/T, W_i = N_i/X_i.
+
+
+K = 2   r = 0.30   alpha = 24.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5476     4.000     37.1428    0.1477      0.1732      4.6636
+Sistemski disk 1        0.4210    10.000     10.1033    0.1014      0.1123     11.1135
+Sistemski disk 2        0.3110    15.000      7.4644    0.1115      0.1258     16.8538
+Sistemski disk 3        0.2077    15.000      4.9856    0.0740      0.0798     16.0018
+Korisnički disk 1       0.4980    25.000     11.9528    0.3014      0.4293     35.9130
+Korisnički disk 2       0.4913    25.000     11.7922    0.2947      0.4156     35.2470
+--------------------------------------------------------------------------------------------
+Sistem: N =               1.3360     T_sistem =     56.2638 ms     X_izlaz =     23.7450 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    55.6660 ms   vs   izmereno srednje vreme u sistemu =    56.2638 ms
+Spoljnih dolazaka: 42741   izlazaka iz sistema: 42741   poslova u sistemu na kraju: 0
+
+K = 2   r = 0.55   alpha = 44.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5628     4.000     68.7628    0.2758      0.3825      5.5628
+Sistemski disk 1        0.4183    10.000     18.4067    0.1854      0.2303     12.5142
+Sistemski disk 2        0.3101    15.000     13.6439    0.2044      0.2565     18.7965
+Sistemski disk 3        0.2076    15.000      9.1350    0.1374      0.1598     17.4911
+Korisnički disk 1       0.4993    25.000     21.9706    0.5526      1.2306     56.0112
+Korisnički disk 2       0.4984    25.000     21.9278    0.5480      1.2191     55.5943
+--------------------------------------------------------------------------------------------
+Sistem: N =               3.4788     T_sistem =     79.2356 ms     X_izlaz =     43.8983 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    79.0626 ms   vs   izmereno srednje vreme u sistemu =    79.2356 ms
+Spoljnih dolazaka: 79021   izlazaka iz sistema: 79017   poslova u sistemu na kraju: 4
+
+K = 2   r = 0.80   alpha = 64.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5694     4.000    100.4417    0.4007      0.6679      6.6492
+Sistemski disk 1        0.4160    10.000     26.6239    0.2655      0.3668     13.7760
+Sistemski disk 2        0.3141    15.000     20.1050    0.3035      0.4367     21.7194
+Sistemski disk 3        0.2074    15.000     13.2744    0.1978      0.2480     18.6822
+Korisnički disk 1       0.4999    25.000     31.9928    0.8045      4.1325    129.1689
+Korisnički disk 2       0.5025    25.000     32.1572    0.8003      4.2559    132.3479
+--------------------------------------------------------------------------------------------
+Sistem: N =              10.1077     T_sistem =    157.5553 ms     X_izlaz =     64.1500 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =   157.9329 ms   vs   izmereno srednje vreme u sistemu =   157.5553 ms
+Spoljnih dolazaka: 115481   izlazaka iz sistema: 115470   poslova u sistemu na kraju: 11
+
+K = 2   r = 1.00   alpha = 80.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5673     4.000    125.3828    0.5022      1.0082      8.0406
+Sistemski disk 1        0.4164    10.000     33.3089    0.3319      0.4953     14.8690
+Sistemski disk 2        0.3135    15.000     25.0817    0.3770      0.6026     24.0267
+Sistemski disk 3        0.2075    15.000     16.6006    0.2507      0.3364     20.2645
+Korisnički disk 1       0.4977    25.000     39.8128    0.9999    197.5642   4962.3309
+Korisnički disk 2       0.5004    25.000     40.0283    0.9953    124.7166   3115.7089
+--------------------------------------------------------------------------------------------
+Sistem: N =             324.7233     T_sistem =   4050.9453 ms     X_izlaz =     79.8411 1/s
+Kritični resurs: svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+Provera Litlovog zakona: N / alpha =  4059.0408 ms   vs   izmereno srednje vreme u sistemu =  4050.9453 ms
+Spoljnih dolazaka: 144223   izlazaka iz sistema: 143714   poslova u sistemu na kraju: 509
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 3   r = 0.30   alpha = 36.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5582     4.000     56.0944    0.2243      0.2887      5.1472
+Sistemski disk 1        0.4171    10.000     15.0156    0.1503      0.1757     11.6996
+Sistemski disk 2        0.3140    15.000     11.3033    0.1681      0.2027     17.9349
+Sistemski disk 3        0.2088    15.000      7.5178    0.1123      0.1256     16.7052
+Korisnički disk 1       0.3303    25.000     11.8894    0.2980      0.4261     35.8346
+Korisnički disk 2       0.3376    25.000     12.1539    0.3014      0.4288     35.2821
+Korisnički disk 3       0.3319    25.000     11.9478    0.2966      0.4257     35.6295
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.0733     T_sistem =     57.6046 ms     X_izlaz =     35.9911 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    57.5910 ms   vs   izmereno srednje vreme u sistemu =    57.6046 ms
+Spoljnih dolazaka: 64785   izlazaka iz sistema: 64784   poslova u sistemu na kraju: 1
+
+K = 3   r = 0.55   alpha = 66.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5533     4.000    102.5150    0.4098      0.6946      6.7757
+Sistemski disk 1        0.4080    10.000     26.9267    0.2697      0.3709     13.7756
+Sistemski disk 2        0.3117    15.000     20.5733    0.3074      0.4408     21.4236
+Sistemski disk 3        0.2074    15.000     13.6889    0.2057      0.2599     18.9858
+Korisnički disk 1       0.3334    25.000     22.0061    0.5498      1.2366     56.1922
+Korisnički disk 2       0.3320    25.000     21.9106    0.5498      1.2394     56.5641
+Korisnički disk 3       0.3315    25.000     21.8767    0.5475      1.2075     55.1956
+--------------------------------------------------------------------------------------------
+Sistem: N =               5.4496     T_sistem =     82.8251 ms     X_izlaz =     65.7933 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    82.5698 ms   vs   izmereno srednje vreme u sistemu =    82.8251 ms
+Spoljnih dolazaka: 118435   izlazaka iz sistema: 118428   poslova u sistemu na kraju: 7
+
+K = 3   r = 0.80   alpha = 96.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5535     4.000    149.1406    0.5966      1.4706      9.8603
+Sistemski disk 1        0.4152    10.000     39.8572    0.3968      0.6501     16.3100
+Sistemski disk 2        0.3113    15.000     29.8889    0.4501      0.8149     27.2656
+Sistemski disk 3        0.2058    15.000     19.7544    0.2962      0.4232     21.4214
+Korisnički disk 1       0.3318    25.000     31.8522    0.8020      4.1095    129.0177
+Korisnički disk 2       0.3331    25.000     31.9800    0.8028      4.3906    137.2929
+Korisnički disk 3       0.3304    25.000     31.7178    0.7940      3.8190    120.4070
+--------------------------------------------------------------------------------------------
+Sistem: N =              15.6779     T_sistem =    164.0752 ms     X_izlaz =     95.5500 1/s
+Kritični resurs: svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =   163.3116 ms   vs   izmereno srednje vreme u sistemu =   164.0752 ms
+Spoljnih dolazaka: 172001   izlazaka iz sistema: 171990   poslova u sistemu na kraju: 11
+
+K = 3   r = 1.00   alpha = 120.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5694     4.000    188.3222    0.7538      3.1060     16.4930
+Sistemski disk 1        0.4188    10.000     50.2550    0.5013      1.0013     19.9252
+Sistemski disk 2        0.3146    15.000     37.7506    0.5648      1.2898     34.1668
+Sistemski disk 3        0.2097    15.000     25.1672    0.3746      0.6021     23.9244
+Korisnički disk 1       0.3317    25.000     39.8006    0.9980    500.5316  12575.9950
+Korisnički disk 2       0.3342    25.000     40.1039    0.9913    150.4223   3750.8151
+Korisnički disk 3       0.3314    25.000     39.7683    0.9967    340.2439   8555.6496
+--------------------------------------------------------------------------------------------
+Sistem: N =             997.1970     T_sistem =   8304.1268 ms     X_izlaz =    119.6728 1/s
+Kritični resurs: svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+Provera Litlovog zakona: N / alpha =  8309.9753 ms   vs   izmereno srednje vreme u sistemu =  8304.1268 ms
+Spoljnih dolazaka: 216473   izlazaka iz sistema: 215411   poslova u sistemu na kraju: 1062
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 4   r = 0.30   alpha = 48.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5555     4.000     74.6650    0.2982      0.4240      5.6788
+Sistemski disk 1        0.4156    10.000     19.9506    0.1996      0.2484     12.4507
+Sistemski disk 2        0.3107    15.000     14.9133    0.2256      0.2937     19.6914
+Sistemski disk 3        0.2063    15.000      9.9028    0.1492      0.1750     17.6752
+Korisnički disk 1       0.2531    25.000     12.1472    0.3063      0.4391     36.1456
+Korisnički disk 2       0.2481    25.000     11.9106    0.2979      0.4247     35.6586
+Korisnički disk 3       0.2471    25.000     11.8611    0.2979      0.4251     35.8362
+Korisnički disk 4       0.2484    25.000     11.9256    0.2982      0.4299     36.0477
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.8598     T_sistem =     59.7735 ms     X_izlaz =     47.8444 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    59.5798 ms   vs   izmereno srednje vreme u sistemu =    59.7735 ms
+Spoljnih dolazaka: 86120   izlazaka iz sistema: 86120   poslova u sistemu na kraju: 0
+
+K = 4   r = 0.55   alpha = 88.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5581     4.000    137.1094    0.5486      1.2237      8.9252
+Sistemski disk 1        0.4174    10.000     36.7272    0.3647      0.5709     15.5447
+Sistemski disk 2        0.3093    15.000     27.2194    0.4116      0.6946     25.5184
+Sistemski disk 3        0.2092    15.000     18.4094    0.2763      0.3813     20.7113
+Korisnički disk 1       0.2484    25.000     21.8628    0.5409      1.1724     53.6253
+Korisnički disk 2       0.2495    25.000     21.9539    0.5537      1.2303     56.0411
+Korisnički disk 3       0.2479    25.000     21.8111    0.5405      1.1757     53.9058
+Korisnički disk 4       0.2501    25.000     22.0056    0.5504      1.2281     55.8081
+--------------------------------------------------------------------------------------------
+Sistem: N =               7.6771     T_sistem =     87.6017 ms     X_izlaz =     87.6333 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =    87.2395 ms   vs   izmereno srednje vreme u sistemu =    87.6017 ms
+Spoljnih dolazaka: 157745   izlazaka iz sistema: 157740   poslova u sistemu na kraju: 5
+
+K = 4   r = 0.80   alpha = 128.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5642     4.000    200.2133    0.8000      4.0249     20.1028
+Sistemski disk 1        0.4150    10.000     53.1167    0.5338      1.1462     21.5787
+Sistemski disk 2        0.3127    15.000     40.0239    0.6008      1.5014     37.5128
+Sistemski disk 3        0.2084    15.000     26.6733    0.3997      0.6672     25.0154
+Korisnički disk 1       0.2490    25.000     31.8694    0.8020      3.9403    123.6376
+Korisnički disk 2       0.2497    25.000     31.9594    0.7968      3.9693    124.1988
+Korisnički disk 3       0.2515    25.000     32.1944    0.8037      4.1419    128.6526
+Korisnički disk 4       0.2501    25.000     32.0161    0.8008      4.0012    124.9756
+--------------------------------------------------------------------------------------------
+Sistem: N =              23.3924     T_sistem =    182.6508 ms     X_izlaz =    128.0394 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+Provera Litlovog zakona: N / alpha =   182.7532 ms   vs   izmereno srednje vreme u sistemu =   182.6508 ms
+Spoljnih dolazaka: 230522   izlazaka iz sistema: 230471   poslova u sistemu na kraju: 51
+
+K = 4   r = 1.00   alpha = 160.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5567     4.000    249.0711    0.9964    243.2316    976.5548
+Sistemski disk 1        0.4160    10.000     66.5667    0.6656      2.0167     30.2953
+Sistemski disk 2        0.3124    15.000     49.9906    0.7487      2.9861     59.7325
+Sistemski disk 3        0.2062    15.000     32.9883    0.4947      0.9643     29.2313
+Korisnički disk 1       0.2480    25.000     39.6878    0.9985    150.9770   3804.1193
+Korisnički disk 2       0.2497    25.000     39.9489    0.9965    134.1027   3356.8571
+Korisnički disk 3       0.2477    25.000     39.6294    0.9884     90.3545   2279.9830
+Korisnički disk 4       0.2491    25.000     39.8517    0.9949    117.0875   2938.0839
+--------------------------------------------------------------------------------------------
+Sistem: N =             741.7204     T_sistem =   4649.2996 ms     X_izlaz =    159.1178 1/s
+Kritični resurs: Procesor i svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+Provera Litlovog zakona: N / alpha =  4635.7523 ms   vs   izmereno srednje vreme u sistemu =  4649.2996 ms
+Spoljnih dolazaka: 287395   izlazaka iz sistema: 286412   poslova u sistemu na kraju: 983
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 5   r = 0.30   alpha = 48.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5675     4.000     75.2406    0.3006      0.4304      5.7208
+Sistemski disk 1        0.4192    10.000     20.1206    0.2026      0.2530     12.5731
+Sistemski disk 2        0.3106    15.000     14.9072    0.2232      0.2855     19.1493
+Sistemski disk 3        0.2099    15.000     10.0756    0.1500      0.1764     17.5049
+Korisnički disk 1       0.2001    25.000      9.6067    0.2409      0.3197     33.2804
+Korisnički disk 2       0.2016    25.000      9.6767    0.2423      0.3217     33.2414
+Korisnički disk 3       0.1987    25.000      9.5389    0.2391      0.3176     33.2941
+Korisnički disk 4       0.2002    25.000      9.6089    0.2416      0.3145     32.7301
+Korisnički disk 5       0.2015    25.000      9.6711    0.2454      0.3251     33.6149
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.7438     T_sistem =     57.0413 ms     X_izlaz =     48.1022 1/s
+Kritični resurs: Procesor
+Provera Litlovog zakona: N / alpha =    57.1628 ms   vs   izmereno srednje vreme u sistemu =    57.0413 ms
+Spoljnih dolazaka: 86584   izlazaka iz sistema: 86584   poslova u sistemu na kraju: 0
+
+K = 5   r = 0.55   alpha = 88.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5651     4.000    137.7289    0.5471      1.2095      8.7818
+Sistemski disk 1        0.4161    10.000     36.6194    0.3631      0.5709     15.5890
+Sistemski disk 2        0.3111    15.000     27.3750    0.4090      0.6797     24.8305
+Sistemski disk 3        0.2085    15.000     18.3472    0.2732      0.3791     20.6637
+Korisnički disk 1       0.2016    25.000     17.7378    0.4430      0.7900     44.5369
+Korisnički disk 2       0.1995    25.000     17.5522    0.4346      0.7646     43.5601
+Korisnički disk 3       0.1998    25.000     17.5839    0.4392      0.7700     43.7881
+Korisnički disk 4       0.2018    25.000     17.7556    0.4386      0.7808     43.9725
+Korisnički disk 5       0.1982    25.000     17.4400    0.4343      0.7802     44.7360
+--------------------------------------------------------------------------------------------
+Sistem: N =               6.7247     T_sistem =     76.3554 ms     X_izlaz =     88.0694 1/s
+Kritični resurs: Procesor
+Provera Litlovog zakona: N / alpha =    76.4170 ms   vs   izmereno srednje vreme u sistemu =    76.3554 ms
+Spoljnih dolazaka: 158531   izlazaka iz sistema: 158525   poslova u sistemu na kraju: 6
+
+K = 5   r = 0.80   alpha = 128.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5685     4.000    200.7717    0.8024      4.1505     20.6728
+Sistemski disk 1        0.4204    10.000     53.8106    0.5384      1.1731     21.8013
+Sistemski disk 2        0.3139    15.000     40.1806    0.6037      1.5394     38.3123
+Sistemski disk 3        0.2076    15.000     26.5722    0.4006      0.6743     25.3776
+Korisnički disk 1       0.2000    25.000     25.5994    0.6405      1.7752     69.3443
+Korisnički disk 2       0.2007    25.000     25.6900    0.6390      1.7552     68.3227
+Korisnički disk 3       0.2012    25.000     25.7528    0.6463      1.8015     69.9546
+Korisnički disk 4       0.2002    25.000     25.6244    0.6429      1.7918     69.9268
+Korisnički disk 5       0.2013    25.000     25.7694    0.6408      1.8052     70.0520
+--------------------------------------------------------------------------------------------
+Sistem: N =              16.4664     T_sistem =    128.2006 ms     X_izlaz =    128.4361 1/s
+Kritični resurs: Procesor
+Provera Litlovog zakona: N / alpha =   128.6434 ms   vs   izmereno srednje vreme u sistemu =   128.2006 ms
+Spoljnih dolazaka: 231204   izlazaka iz sistema: 231185   poslova u sistemu na kraju: 19
+
+K = 5   r = 1.00   alpha = 160.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5598     4.000    249.5606    0.9969    285.2314   1142.9346
+Sistemski disk 1        0.4159    10.000     66.5439    0.6653      2.0102     30.2084
+Sistemski disk 2        0.3108    15.000     49.7356    0.7441      2.8795     57.8965
+Sistemski disk 3        0.2099    15.000     33.5883    0.5055      1.0390     30.9338
+Korisnički disk 1       0.1997    25.000     31.9522    0.7931      3.9008    122.0811
+Korisnički disk 2       0.1993    25.000     31.8817    0.8009      4.0896    128.2740
+Korisnički disk 3       0.1980    25.000     31.6783    0.7859      3.8810    122.5132
+Korisnički disk 4       0.2011    25.000     32.1733    0.8034      3.9308    122.1759
+Korisnički disk 5       0.2003    25.000     32.0450    0.8093      4.1926    130.8354
+--------------------------------------------------------------------------------------------
+Sistem: N =             311.1549     T_sistem =   1940.5676 ms     X_izlaz =    159.7306 1/s
+Kritični resurs: Procesor   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+Provera Litlovog zakona: N / alpha =  1944.7181 ms   vs   izmereno srednje vreme u sistemu =  1940.5676 ms
+Spoljnih dolazaka: 288193   izlazaka iz sistema: 287515   poslova u sistemu na kraju: 678
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).

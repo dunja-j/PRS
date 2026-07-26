@@ -1,0 +1,535 @@
+============================================================================================
+USREDNJENI REZULTATI 100 SIMULACIJA PO KOMBINACIJI PARAMETARA (r, K)
+============================================================================================
+
+Vremena opsluživanja: Sp = 4 ms, Sd1 = 10 ms, Sd2 = Sd3 = 15 ms, Sdk = 25 ms (eksponencijalna raspodela)
+Rutiranje posle procesora: 20% SD1, 15% SD2, 10% SD3, 40% korisnički diskovi (ravnomerno), 15% natrag u red procesora
+Rutiranje posle sistemskog diska: 35% red procesora, 25% isti disk, 40% korisnički diskovi (ravnomerno)
+Posle korisničkog diska posao napušta sistem.
+
+Simulirano vreme rada sistema po izvršavanju: 30 min (1800 s)
+Broj ponavljanja po kombinaciji (r, K): 100
+Svako izvršavanje koristi različito seme generatora slučajnih brojeva,
+pa su ponavljanja nezavisne realizacije istog stohastičkog procesa.
+Uz srednju vrednost prikazana je i uzoračka standardna devijacija po ponavljanjima.
+
+
+K = 2   r = 0.30   alpha = 24.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5615     4.000     37.4761    0.1499      0.1764      4.7069
+Sistemski disk 1        0.4165    10.000      9.9967    0.1000      0.1110     11.1075
+Sistemski disk 2        0.3117    15.000      7.4803    0.1124      0.1265     16.9117
+Sistemski disk 3        0.2078    15.000      4.9880    0.0749      0.0810     16.2339
+Korisnički disk 1       0.4999    25.000     11.9971    0.2999      0.4281     35.6864
+Korisnički disk 2       0.4997    25.000     11.9939    0.2997      0.4273     35.6233
+--------------------------------------------------------------------------------------------
+Sistem: N =               1.3503     T_sistem =     56.2829 ms     X_izlaz =     23.9910 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.2205      0.0010      0.0014        0.0243
+Sistemski disk 1          0.1071      0.0013      0.0017        0.1021
+Sistemski disk 2          0.0973      0.0017      0.0024        0.1931
+Sistemski disk 3          0.0688      0.0013      0.0015        0.2011
+Korisnički disk 1         0.0775      0.0030      0.0066        0.4156
+Korisnički disk 2         0.0925      0.0029      0.0063        0.4122
+--------------------------------------------------------------------------------------------
+std(N) = 0.011993   std(T_sistem) = 0.331076 ms   T_sistem iz 100 simulacija: min = 55.3848 ms, max = 57.2788 ms
+Provera Litlovog zakona: N / alpha =    56.2640 ms   vs   izmereno srednje vreme u sistemu =    56.2829 ms
+Spoljnih dolazaka: 43185   izlazaka iz sistema: 43184   poslova u sistemu na kraju: 1
+
+K = 2   r = 0.55   alpha = 44.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5632     4.000     68.7789    0.2752      0.3796      5.5188
+Sistemski disk 1        0.4170    10.000     18.3501    0.1834      0.2246     12.2418
+Sistemski disk 2        0.3131    15.000     13.7771    0.2069      0.2609     18.9377
+Sistemski disk 3        0.2084    15.000      9.1687    0.1375      0.1594     17.3902
+Korisnički disk 1       0.5003    25.000     22.0140    0.5502      1.2223     55.5207
+Korisnički disk 2       0.4998    25.000     21.9928    0.5496      1.2201     55.4775
+--------------------------------------------------------------------------------------------
+Sistem: N =               3.4670     T_sistem =     78.7791 ms     X_izlaz =     44.0068 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.2761      0.0013      0.0029        0.0288
+Sistemski disk 1          0.1388      0.0017      0.0028        0.1009
+Sistemski disk 2          0.1329      0.0024      0.0041        0.1932
+Sistemski disk 3          0.0949      0.0018      0.0025        0.1832
+Korisnički disk 1         0.1057      0.0041      0.0248        1.0014
+Korisnički disk 2         0.0991      0.0039      0.0245        0.9879
+--------------------------------------------------------------------------------------------
+std(N) = 0.037259   std(T_sistem) = 0.687153 ms   T_sistem iz 100 simulacija: min = 76.7182 ms, max = 80.9774 ms
+Provera Litlovog zakona: N / alpha =    78.7954 ms   vs   izmereno srednje vreme u sistemu =    78.7791 ms
+Spoljnih dolazaka: 79216   izlazaka iz sistema: 79212   poslova u sistemu na kraju: 4
+
+K = 2   r = 0.80   alpha = 64.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5627     4.000    100.0104    0.4001      0.6664      6.6635
+Sistemski disk 1        0.4165    10.000     26.6529    0.2664      0.3631     13.6229
+Sistemski disk 2        0.3128    15.000     20.0209    0.3005      0.4294     21.4478
+Sistemski disk 3        0.2085    15.000     13.3429    0.2003      0.2505     18.7711
+Korisnički disk 1       0.4999    25.000     31.9909    0.8000      4.0261    125.8445
+Korisnički disk 2       0.5000    25.000     32.0016    0.8003      3.9997    124.9758
+--------------------------------------------------------------------------------------------
+Sistem: N =               9.7352     T_sistem =    152.1169 ms     X_izlaz =     63.9925 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.3049      0.0015      0.0051        0.0396
+Sistemski disk 1          0.1601      0.0019      0.0039        0.1112
+Sistemski disk 2          0.1305      0.0024      0.0060        0.2229
+Sistemski disk 3          0.1089      0.0022      0.0038        0.2028
+Korisnički disk 1         0.1216      0.0049      0.1538        4.5742
+Korisnički disk 2         0.1316      0.0045      0.1635        4.8719
+--------------------------------------------------------------------------------------------
+std(N) = 0.213323   std(T_sistem) = 3.181259 ms   T_sistem iz 100 simulacija: min = 144.9636 ms, max = 160.2031 ms
+Provera Litlovog zakona: N / alpha =   152.1129 ms   vs   izmereno srednje vreme u sistemu =   152.1169 ms
+Spoljnih dolazaka: 115197   izlazaka iz sistema: 115187   poslova u sistemu na kraju: 10
+
+K = 2   r = 1.00   alpha = 80.0000 1/s   (alpha_max = 80.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5618     4.000    124.9415    0.4998      0.9988      7.9945
+Sistemski disk 1        0.4163    10.000     33.3049    0.3331      0.5000     15.0139
+Sistemski disk 2        0.3126    15.000     25.0055    0.3749      0.5996     23.9799
+Sistemski disk 3        0.2080    15.000     16.6410    0.2499      0.3333     20.0261
+Korisnički disk 1       0.4978    25.000     39.8205    0.9960    202.8225   5094.2968
+Korisnički disk 2       0.4978    25.000     39.8250    0.9958    206.8910   5196.4814
+--------------------------------------------------------------------------------------------
+Sistem: N =             412.1453     T_sistem =   5150.9268 ms     X_izlaz =     79.6455 1/s
+Kritični resurs: svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.3456      0.0017      0.0083        0.0553
+Sistemski disk 1          0.1953      0.0024      0.0065        0.1423
+Sistemski disk 2          0.1476      0.0030      0.0088        0.2718
+Sistemski disk 3          0.1264      0.0024      0.0049        0.2186
+Korisnički disk 1         0.1375      0.0034    112.2714     2828.0615
+Korisnički disk 2         0.1458      0.0031    109.5631     2757.5061
+--------------------------------------------------------------------------------------------
+std(N) = 148.104679   std(T_sistem) = 1846.007173 ms   T_sistem iz 100 simulacija: min = 2293.1727 ms, max = 10052.0148 ms
+Provera Litlovog zakona: N / alpha =  5151.8162 ms   vs   izmereno srednje vreme u sistemu =  5150.9268 ms
+Spoljnih dolazaka: 143959   izlazaka iz sistema: 143362   poslova u sistemu na kraju: 597
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 3   r = 0.30   alpha = 36.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5632     4.000     56.2748    0.2250      0.2904      5.1601
+Sistemski disk 1        0.4166    10.000     14.9971    0.1500      0.1765     11.7705
+Sistemski disk 2        0.3125    15.000     11.2486    0.1684      0.2026     18.0134
+Sistemski disk 3        0.2085    15.000      7.5059    0.1124      0.1267     16.8802
+Korisnički disk 1       0.3336    25.000     12.0099    0.3000      0.4281     35.6440
+Korisnički disk 2       0.3334    25.000     12.0023    0.2996      0.4275     35.6141
+Korisnički disk 3       0.3336    25.000     12.0086    0.3003      0.4290     35.7212
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.0807     T_sistem =     57.7635 ms     X_izlaz =     36.0207 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.2731      0.0013      0.0024        0.0286
+Sistemski disk 1          0.1388      0.0015      0.0023        0.0972
+Sistemski disk 2          0.1183      0.0023      0.0036        0.2108
+Sistemski disk 3          0.0963      0.0017      0.0022        0.1737
+Korisnički disk 1         0.0864      0.0029      0.0067        0.4786
+Korisnički disk 2         0.0819      0.0029      0.0061        0.3946
+Korisnički disk 3         0.0728      0.0027      0.0068        0.4873
+--------------------------------------------------------------------------------------------
+std(N) = 0.015485   std(T_sistem) = 0.313201 ms   T_sistem iz 100 simulacija: min = 57.2473 ms, max = 58.5016 ms
+Provera Litlovog zakona: N / alpha =    57.7986 ms   vs   izmereno srednje vreme u sistemu =    57.7635 ms
+Spoljnih dolazaka: 64839   izlazaka iz sistema: 64837   poslova u sistemu na kraju: 2
+
+K = 3   r = 0.55   alpha = 66.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5621     4.000    103.1018    0.4125      0.7021      6.8095
+Sistemski disk 1        0.4163    10.000     27.4784    0.2748      0.3790     13.7914
+Sistemski disk 2        0.3123    15.000     20.6095    0.3092      0.4473     21.7049
+Sistemski disk 3        0.2082    15.000     13.7390    0.2059      0.2591     18.8601
+Korisnički disk 1       0.3333    25.000     21.9950    0.5501      1.2226     55.5824
+Korisnički disk 2       0.3334    25.000     22.0011    0.5502      1.2247     55.6632
+Korisnički disk 3       0.3334    25.000     22.0027    0.5503      1.2237     55.6155
+--------------------------------------------------------------------------------------------
+Sistem: N =               5.4585     T_sistem =     82.7026 ms     X_izlaz =     65.9988 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.3788      0.0016      0.0053        0.0368
+Sistemski disk 1          0.2053      0.0024      0.0052        0.1257
+Sistemski disk 2          0.1418      0.0028      0.0067        0.2546
+Sistemski disk 3          0.1229      0.0022      0.0034        0.1521
+Korisnički disk 1         0.1208      0.0039      0.0243        0.9585
+Korisnički disk 2         0.1068      0.0036      0.0239        0.9515
+Korisnički disk 3         0.1181      0.0039      0.0234        0.9246
+--------------------------------------------------------------------------------------------
+std(N) = 0.045783   std(T_sistem) = 0.534905 ms   T_sistem iz 100 simulacija: min = 81.5124 ms, max = 83.8763 ms
+Provera Litlovog zakona: N / alpha =    82.7047 ms   vs   izmereno srednje vreme u sistemu =    82.7026 ms
+Spoljnih dolazaka: 118803   izlazaka iz sistema: 118798   poslova u sistemu na kraju: 5
+
+K = 3   r = 0.80   alpha = 96.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5628     4.000    150.0242    0.6001      1.5000      9.9985
+Sistemski disk 1        0.4169    10.000     40.0204    0.4003      0.6674     16.6771
+Sistemski disk 2        0.3126    15.000     30.0142    0.4502      0.8176     27.2386
+Sistemski disk 3        0.2085    15.000     20.0177    0.3003      0.4293     21.4479
+Korisnički disk 1       0.3332    25.000     31.9918    0.8003      4.0320    126.0241
+Korisnički disk 2       0.3333    25.000     31.9977    0.8000      4.0142    125.4443
+Korisnički disk 3       0.3335    25.000     32.0166    0.8005      4.0061    125.1140
+--------------------------------------------------------------------------------------------
+Sistem: N =              15.4667     T_sistem =    161.0852 ms     X_izlaz =     96.0061 1/s
+Kritični resurs: svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4394      0.0022      0.0165        0.0900
+Sistemski disk 1          0.2224      0.0027      0.0090        0.1787
+Sistemski disk 2          0.1854      0.0032      0.0135        0.3505
+Sistemski disk 3          0.1592      0.0027      0.0060        0.2147
+Korisnički disk 1         0.1252      0.0049      0.1833        5.4928
+Korisnički disk 2         0.1307      0.0049      0.1677        4.9898
+Korisnički disk 3         0.1245      0.0046      0.1672        4.9287
+--------------------------------------------------------------------------------------------
+std(N) = 0.308287   std(T_sistem) = 3.023360 ms   T_sistem iz 100 simulacija: min = 153.9307 ms, max = 167.2401 ms
+Provera Litlovog zakona: N / alpha =   161.1117 ms   vs   izmereno srednje vreme u sistemu =   161.0852 ms
+Spoljnih dolazaka: 172826   izlazaka iz sistema: 172811   poslova u sistemu na kraju: 15
+
+K = 3   r = 1.00   alpha = 120.0000 1/s   (alpha_max = 120.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5621     4.000    187.4575    0.7497      2.9921     15.9615
+Sistemski disk 1        0.4166    10.000     49.9905    0.4997      0.9984     19.9710
+Sistemski disk 2        0.3125    15.000     37.5019    0.5624      1.2848     34.2599
+Sistemski disk 3        0.2082    15.000     24.9825    0.3746      0.5992     23.9832
+Korisnički disk 1       0.3320    25.000     39.8435    0.9960    209.4367   5256.8283
+Korisnički disk 2       0.3320    25.000     39.8416    0.9954    186.0709   4669.6445
+Korisnički disk 3       0.3320    25.000     39.8374    0.9957    185.4571   4654.4652
+--------------------------------------------------------------------------------------------
+Sistem: N =             586.8392     T_sistem =   4887.4793 ms     X_izlaz =    119.5225 1/s
+Kritični resurs: svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4407      0.0018      0.0418        0.2056
+Sistemski disk 1          0.2310      0.0029      0.0155        0.2564
+Sistemski disk 2          0.1688      0.0031      0.0225        0.5290
+Sistemski disk 3          0.1461      0.0028      0.0083        0.2575
+Korisnički disk 1         0.1248      0.0031    121.0638     3040.8333
+Korisnički disk 2         0.1192      0.0030    107.6699     2702.8722
+Korisnički disk 3         0.1187      0.0032    103.0397     2584.7071
+--------------------------------------------------------------------------------------------
+std(N) = 179.153581   std(T_sistem) = 1486.744945 ms   T_sistem iz 100 simulacija: min = 1961.1985 ms, max = 8304.1268 ms
+Provera Litlovog zakona: N / alpha =  4890.3269 ms   vs   izmereno srednje vreme u sistemu =  4887.4793 ms
+Spoljnih dolazaka: 215982   izlazaka iz sistema: 215140   poslova u sistemu na kraju: 841
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 4   r = 0.30   alpha = 48.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5619     4.000     74.9700    0.2998      0.4282      5.7114
+Sistemski disk 1        0.4170    10.000     20.0177    0.2002      0.2504     12.5102
+Sistemski disk 2        0.3126    15.000     15.0040    0.2251      0.2902     19.3395
+Sistemski disk 3        0.2080    15.000      9.9850    0.1498      0.1762     17.6451
+Korisnički disk 1       0.2499    25.000     11.9941    0.2997      0.4280     35.6868
+Korisnički disk 2       0.2499    25.000     11.9958    0.3001      0.4287     35.7360
+Korisnički disk 3       0.2497    25.000     11.9865    0.2995      0.4278     35.6935
+Korisnički disk 4       0.2501    25.000     12.0031    0.3000      0.4288     35.7254
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.8584     T_sistem =     59.5733 ms     X_izlaz =     47.9794 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.2507      0.0012      0.0027        0.0255
+Sistemski disk 1          0.1446      0.0018      0.0031        0.1115
+Sistemski disk 2          0.1007      0.0022      0.0041        0.2084
+Sistemski disk 3          0.1112      0.0020      0.0029        0.1738
+Korisnički disk 1         0.0833      0.0027      0.0062        0.3977
+Korisnički disk 2         0.0743      0.0026      0.0058        0.4001
+Korisnički disk 3         0.0739      0.0027      0.0068        0.4827
+Korisnički disk 4         0.0827      0.0028      0.0066        0.4442
+--------------------------------------------------------------------------------------------
+std(N) = 0.016947   std(T_sistem) = 0.264846 ms   T_sistem iz 100 simulacija: min = 58.7622 ms, max = 60.1566 ms
+Provera Litlovog zakona: N / alpha =    59.5494 ms   vs   izmereno srednje vreme u sistemu =    59.5733 ms
+Spoljnih dolazaka: 86366   izlazaka iz sistema: 86363   poslova u sistemu na kraju: 3
+
+K = 4   r = 0.55   alpha = 88.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5629     4.000    137.5384    0.5501      1.2229      8.8915
+Sistemski disk 1        0.4169    10.000     36.6863    0.3669      0.5791     15.7835
+Sistemski disk 2        0.3123    15.000     27.4857    0.4124      0.7021     25.5455
+Sistemski disk 3        0.2084    15.000     18.3404    0.2750      0.3794     20.6856
+Korisnički disk 1       0.2502    25.000     22.0157    0.5504      1.2277     55.7610
+Korisnički disk 2       0.2501    25.000     22.0057    0.5503      1.2255     55.6897
+Korisnički disk 3       0.2499    25.000     21.9900    0.5498      1.2204     55.4953
+Korisnički disk 4       0.2502    25.000     22.0196    0.5502      1.2211     55.4526
+--------------------------------------------------------------------------------------------
+Sistem: N =               7.7782     T_sistem =     88.3529 ms     X_izlaz =     88.0310 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.3768      0.0017      0.0112        0.0702
+Sistemski disk 1          0.1959      0.0026      0.0078        0.1593
+Sistemski disk 2          0.1659      0.0028      0.0108        0.3373
+Sistemski disk 3          0.1322      0.0025      0.0054        0.2249
+Korisnički disk 1         0.1279      0.0045      0.0275        1.0660
+Korisnički disk 2         0.1163      0.0037      0.0237        0.9639
+Korisnički disk 3         0.1041      0.0041      0.0210        0.8142
+Korisnički disk 4         0.0926      0.0032      0.0200        0.8218
+--------------------------------------------------------------------------------------------
+std(N) = 0.052263   std(T_sistem) = 0.481602 ms   T_sistem iz 100 simulacija: min = 87.2176 ms, max = 89.7073 ms
+Provera Litlovog zakona: N / alpha =    88.3882 ms   vs   izmereno srednje vreme u sistemu =    88.3529 ms
+Spoljnih dolazaka: 158464   izlazaka iz sistema: 158456   poslova u sistemu na kraju: 8
+
+K = 4   r = 0.80   alpha = 128.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5620     4.000    199.9322    0.7995      3.9835     19.9238
+Sistemski disk 1        0.4164    10.000     53.2983    0.5329      1.1404     21.3955
+Sistemski disk 2        0.3123    15.000     39.9791    0.5995      1.4974     37.4527
+Sistemski disk 3        0.2082    15.000     26.6478    0.3996      0.6657     24.9817
+Korisnički disk 1       0.2498    25.000     31.9750    0.7996      4.0057    125.2640
+Korisnički disk 2       0.2501    25.000     32.0133    0.8007      4.0373    126.1091
+Korisnički disk 3       0.2499    25.000     31.9833    0.8001      4.0048    125.2041
+Korisnički disk 4       0.2499    25.000     31.9819    0.7989      3.9794    124.4187
+--------------------------------------------------------------------------------------------
+Sistem: N =              23.3142     T_sistem =    182.1923 ms     X_izlaz =    127.9535 1/s
+Kritični resurs: Procesor i svi korisnički diskovi
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4275      0.0022      0.0679        0.3198
+Sistemski disk 1          0.2438      0.0031      0.0159        0.2432
+Sistemski disk 2          0.2175      0.0038      0.0297        0.6309
+Sistemski disk 3          0.1707      0.0030      0.0099        0.2766
+Korisnički disk 1         0.1420      0.0048      0.1782        5.2471
+Korisnički disk 2         0.1196      0.0043      0.1315        3.9410
+Korisnički disk 3         0.1396      0.0046      0.1522        4.4210
+Korisnički disk 4         0.1209      0.0045      0.1605        4.7910
+--------------------------------------------------------------------------------------------
+std(N) = 0.323149   std(T_sistem) = 2.351871 ms   T_sistem iz 100 simulacija: min = 175.7573 ms, max = 187.4871 ms
+Provera Litlovog zakona: N / alpha =   182.1419 ms   vs   izmereno srednje vreme u sistemu =   182.1923 ms
+Spoljnih dolazaka: 230339   izlazaka iz sistema: 230316   poslova u sistemu na kraju: 22
+
+K = 4   r = 1.00   alpha = 160.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5591     4.000    249.4631    0.9979    413.8521   1658.5478
+Sistemski disk 1        0.4159    10.000     66.5393    0.6651      1.9856     29.8406
+Sistemski disk 2        0.3120    15.000     49.9121    0.7489      2.9833     59.7672
+Sistemski disk 3        0.2077    15.000     33.2330    0.4981      0.9916     29.8376
+Korisnički disk 1       0.2485    25.000     39.7619    0.9946    186.5993   4693.5286
+Korisnički disk 2       0.2487    25.000     39.7993    0.9945    161.2349   4051.4899
+Korisnički disk 3       0.2487    25.000     39.7934    0.9947    160.4020   4031.0361
+Korisnički disk 4       0.2486    25.000     39.7757    0.9941    175.4119   4410.3781
+--------------------------------------------------------------------------------------------
+Sistem: N =            1103.4607     T_sistem =   6896.3481 ms     X_izlaz =    159.1303 1/s
+Kritični resurs: Procesor i svi korisnički diskovi   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4085      0.0016    239.1562      957.9908
+Sistemski disk 1          0.2528      0.0030      0.0342        0.4494
+Sistemski disk 2          0.1968      0.0040      0.0932        1.7149
+Sistemski disk 3          0.1717      0.0032      0.0173        0.4339
+Korisnički disk 1         0.1191      0.0035     91.8521     2313.1164
+Korisnički disk 2         0.1244      0.0034     89.9415     2263.7693
+Korisnički disk 3         0.1214      0.0035     82.5914     2078.4476
+Korisnički disk 4         0.1144      0.0035    104.9455     2640.5557
+--------------------------------------------------------------------------------------------
+std(N) = 303.455885   std(T_sistem) = 1887.556698 ms   T_sistem iz 100 simulacija: min = 3558.8058 ms, max = 12865.2305 ms
+Provera Litlovog zakona: N / alpha =  6896.6292 ms   vs   izmereno srednje vreme u sistemu =  6896.3481 ms
+Spoljnih dolazaka: 288020   izlazaka iz sistema: 286435   poslova u sistemu na kraju: 1585
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
+
+K = 5   r = 0.30   alpha = 48.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5617     4.000     74.9600    0.2998      0.4284      5.7154
+Sistemski disk 1        0.4166    10.000     19.9975    0.2002      0.2504     12.5203
+Sistemski disk 2        0.3125    15.000     14.9981    0.2249      0.2904     19.3647
+Sistemski disk 3        0.2082    15.000      9.9928    0.1498      0.1762     17.6333
+Korisnički disk 1       0.1999    25.000      9.5931    0.2399      0.3159     32.9263
+Korisnički disk 2       0.1998    25.000      9.5898    0.2401      0.3160     32.9486
+Korisnički disk 3       0.2001    25.000      9.6035    0.2400      0.3158     32.8867
+Korisnički disk 4       0.1999    25.000      9.5957    0.2400      0.3157     32.8995
+Korisnički disk 5       0.1998    25.000      9.5892    0.2399      0.3154     32.8905
+--------------------------------------------------------------------------------------------
+Sistem: N =               2.7242     T_sistem =     56.7874 ms     X_izlaz =     47.9714 1/s
+Kritični resurs: Procesor
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.2919      0.0014      0.0035        0.0321
+Sistemski disk 1          0.1531      0.0018      0.0029        0.0906
+Sistemski disk 2          0.1449      0.0026      0.0047        0.2027
+Sistemski disk 3          0.1118      0.0021      0.0031        0.1974
+Korisnički disk 1         0.0805      0.0026      0.0053        0.4128
+Korisnički disk 2         0.0680      0.0026      0.0046        0.3715
+Korisnički disk 3         0.0730      0.0027      0.0051        0.4288
+Korisnički disk 4         0.0744      0.0025      0.0049        0.3746
+Korisnički disk 5         0.0699      0.0026      0.0047        0.3748
+--------------------------------------------------------------------------------------------
+std(N) = 0.018370   std(T_sistem) = 0.259321 ms   T_sistem iz 100 simulacija: min = 56.1332 ms, max = 57.4337 ms
+Provera Litlovog zakona: N / alpha =    56.7551 ms   vs   izmereno srednje vreme u sistemu =    56.7874 ms
+Spoljnih dolazaka: 86351   izlazaka iz sistema: 86348   poslova u sistemu na kraju: 3
+
+K = 5   r = 0.55   alpha = 88.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5628     4.000    137.5230    0.5501      1.2227      8.8907
+Sistemski disk 1        0.4165    10.000     36.6559    0.3666      0.5789     15.7928
+Sistemski disk 2        0.3127    15.000     27.5151    0.4125      0.7020     25.5129
+Sistemski disk 3        0.2085    15.000     18.3449    0.2752      0.3795     20.6888
+Korisnički disk 1       0.2000    25.000     17.6014    0.4400      0.7850     44.5961
+Korisnički disk 2       0.2001    25.000     17.6048    0.4404      0.7864     44.6690
+Korisnički disk 3       0.2001    25.000     17.6053    0.4398      0.7863     44.6598
+Korisnički disk 4       0.1999    25.000     17.5943    0.4399      0.7861     44.6789
+Korisnički disk 5       0.1999    25.000     17.5948    0.4403      0.7871     44.7323
+--------------------------------------------------------------------------------------------
+Sistem: N =               6.8140     T_sistem =     77.4279 ms     X_izlaz =     88.0006 1/s
+Kritični resurs: Procesor
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4145      0.0020      0.0129        0.0759
+Sistemski disk 1          0.1940      0.0023      0.0071        0.1431
+Sistemski disk 2          0.1572      0.0032      0.0117        0.3515
+Sistemski disk 3          0.1383      0.0025      0.0055        0.2168
+Korisnički disk 1         0.0922      0.0036      0.0130        0.6208
+Korisnički disk 2         0.1054      0.0039      0.0133        0.6315
+Korisnički disk 3         0.1069      0.0033      0.0130        0.6005
+Korisnički disk 4         0.0965      0.0035      0.0126        0.6327
+Korisnički disk 5         0.0959      0.0034      0.0123        0.6064
+--------------------------------------------------------------------------------------------
+std(N) = 0.044540   std(T_sistem) = 0.381823 ms   T_sistem iz 100 simulacija: min = 76.3554 ms, max = 78.4583 ms
+Provera Litlovog zakona: N / alpha =    77.4315 ms   vs   izmereno srednje vreme u sistemu =    77.4279 ms
+Spoljnih dolazaka: 158408   izlazaka iz sistema: 158401   poslova u sistemu na kraju: 7
+
+K = 5   r = 0.80   alpha = 128.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5613     4.000    199.8403    0.7995      3.9830     19.9304
+Sistemski disk 1        0.4165    10.000     53.3070    0.5330      1.1405     21.3939
+Sistemski disk 2        0.3121    15.000     39.9464    0.5992      1.4935     37.3851
+Sistemski disk 3        0.2083    15.000     26.6570    0.4000      0.6664     24.9980
+Korisnički disk 1       0.1997    25.000     25.5601    0.6393      1.7682     69.1752
+Korisnički disk 2       0.1999    25.000     25.5874    0.6398      1.7765     69.4266
+Korisnički disk 3       0.2000    25.000     25.5961    0.6406      1.7804     69.5541
+Korisnički disk 4       0.1998    25.000     25.5789    0.6393      1.7752     69.3969
+Korisnički disk 5       0.2000    25.000     25.5985    0.6401      1.7792     69.5013
+--------------------------------------------------------------------------------------------
+Sistem: N =              16.1628     T_sistem =    126.3413 ms     X_izlaz =    127.9210 1/s
+Kritični resurs: Procesor
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.4906      0.0023      0.0830        0.3857
+Sistemski disk 1          0.2282      0.0029      0.0166        0.2617
+Sistemski disk 2          0.2443      0.0044      0.0325        0.6767
+Sistemski disk 3          0.1756      0.0032      0.0097        0.2681
+Korisnički disk 1         0.1104      0.0037      0.0393        1.4034
+Korisnički disk 2         0.1123      0.0042      0.0389        1.3938
+Korisnički disk 3         0.1114      0.0043      0.0422        1.4952
+Korisnički disk 4         0.1327      0.0046      0.0437        1.5365
+Korisnički disk 5         0.1173      0.0040      0.0400        1.4344
+--------------------------------------------------------------------------------------------
+std(N) = 0.146728   std(T_sistem) = 0.980545 ms   T_sistem iz 100 simulacija: min = 123.8875 ms, max = 129.2174 ms
+Provera Litlovog zakona: N / alpha =   126.2716 ms   vs   izmereno srednje vreme u sistemu =   126.3413 ms
+Spoljnih dolazaka: 230275   izlazaka iz sistema: 230258   poslova u sistemu na kraju: 17
+
+K = 5   r = 1.00   alpha = 160.0000 1/s   (alpha_max = 160.0000 1/s)
+--------------------------------------------------------------------------------------------
+Server                     V_i   S_i[ms]    X_i[1/s]     rho_i         N_i     W_i[ms]
+--------------------------------------------------------------------------------------------
+Procesor                1.5596     4.000    249.5290    0.9980    382.3099   1531.9077
+Sistemski disk 1        0.4159    10.000     66.5428    0.6655      1.9922     29.9385
+Sistemski disk 2        0.3119    15.000     49.9057    0.7486      2.9731     59.5699
+Sistemski disk 3        0.2079    15.000     33.2610    0.4990      0.9972     29.9807
+Korisnički disk 1       0.1996    25.000     31.9407    0.7987      3.9677    124.2163
+Korisnički disk 2       0.1995    25.000     31.9183    0.7982      3.9686    124.3297
+Korisnički disk 3       0.1997    25.000     31.9516    0.7979      3.9416    123.3567
+Korisnički disk 4       0.1996    25.000     31.9394    0.7988      3.9466    123.5565
+Korisnički disk 5       0.1996    25.000     31.9380    0.7981      3.9513    123.7069
+--------------------------------------------------------------------------------------------
+Sistem: N =             408.0481     T_sistem =   2546.8934 ms     X_izlaz =    159.6880 1/s
+Kritični resurs: Procesor   [ZASIĆEN: rho >= 1, nema stacionarnog režima]
+
+Standardna devijacija po ponavljanjima (100 simulacija):
+
+Server                  std(X_i)  std(rho_i)    std(N_i)  std(W_i)[ms]
+--------------------------------------------------------------------------------------------
+Procesor                  0.3586      0.0014    208.2640      834.6397
+Sistemski disk 1          0.2263      0.0027      0.0329        0.4481
+Sistemski disk 2          0.2356      0.0044      0.0877        1.5960
+Sistemski disk 3          0.1855      0.0035      0.0172        0.4147
+Korisnički disk 1         0.1203      0.0043      0.1411        4.2688
+Korisnički disk 2         0.1305      0.0043      0.1489        4.4393
+Korisnički disk 3         0.1084      0.0044      0.1375        4.1764
+Korisnički disk 4         0.1311      0.0049      0.1568        4.6306
+Korisnički disk 5         0.1212      0.0048      0.1501        4.4127
+--------------------------------------------------------------------------------------------
+std(N) = 208.242073   std(T_sistem) = 1296.103841 ms   T_sistem iz 100 simulacija: min = 691.7814 ms, max = 7534.8376 ms
+Provera Litlovog zakona: N / alpha =  2550.3009 ms   vs   izmereno srednje vreme u sistemu =  2546.8934 ms
+Spoljnih dolazaka: 288061   izlazaka iz sistema: 287438   poslova u sistemu na kraju: 623
+  Zasićenje (rho ~ 1): red kritičnog resursa raste tokom celog simuliranog vremena, pa izmereni N i T
+  zavise od dužine simulacije i nisu procene stacionarnih vrednosti (analitički su beskonačni).
